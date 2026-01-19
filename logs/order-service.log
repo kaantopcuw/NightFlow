@@ -1,0 +1,868 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.nightflow:order-service >---------------------
+[INFO] Building order-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.1:run (default-cli) > test-compile @ order-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ order-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ order-service ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 12 source files with javac [debug parameters release 25] to target/classes
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
+WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ order-service ---
+[INFO] skip non existing resourceDirectory /Users/kaantopcu/Projects/NightFlow/order-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ order-service ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 25] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.1:run (default-cli) < test-compile @ order-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.1:run (default-cli) @ order-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2026-01-19T18:49:13.426+03:00  INFO 56942 --- [order-service] [           main] c.n.o.OrderServiceApplication            : Starting OrderServiceApplication using Java 25.0.1 with PID 56942 (/Users/kaantopcu/Projects/NightFlow/order-service/target/classes started by kaantopcu in /Users/kaantopcu/Projects/NightFlow/order-service)
+2026-01-19T18:49:13.427+03:00  INFO 56942 --- [order-service] [           main] c.n.o.OrderServiceApplication            : The following 1 profile is active: "default"
+2026-01-19T18:49:13.570+03:00  INFO 56942 --- [order-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888
+2026-01-19T18:49:13.570+03:00  INFO 56942 --- [order-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=order-service, profiles=[default], label=null, version=null, state=null
+2026-01-19T18:49:15.080+03:00  INFO 56942 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-19T18:49:15.365+03:00  INFO 56942 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 275 ms. Found 1 JPA repository interface.
+2026-01-19T18:49:15.605+03:00  INFO 56942 --- [order-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=67266bb0-701b-3fdc-a986-34db186b7af4
+2026-01-19T18:49:16.027+03:00  INFO 56942 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8095 (http)
+2026-01-19T18:49:16.036+03:00  INFO 56942 --- [order-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-19T18:49:16.037+03:00  INFO 56942 --- [order-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-01-19T18:49:16.101+03:00  INFO 56942 --- [order-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2527 ms
+2026-01-19T18:49:16.331+03:00  INFO 56942 --- [order-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-01-19T18:49:16.406+03:00  INFO 56942 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.0.Final
+2026-01-19T18:49:16.779+03:00  INFO 56942 --- [order-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-19T18:49:16.809+03:00  INFO 56942 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-19T18:49:16.967+03:00  INFO 56942 --- [order-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@723f8990
+2026-01-19T18:49:16.968+03:00  INFO 56942 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-19T18:49:17.020+03:00  INFO 56942 --- [order-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/nightflow_order]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.15
+	Default catalog/schema: nightflow_order/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-19T18:49:17.844+03:00  INFO 56942 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-19T18:49:17.926+03:00  INFO 56942 --- [order-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-19T18:49:17.987+03:00  INFO 56942 --- [order-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-19T18:49:18.287+03:00  WARN 56942 --- [order-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-19T18:49:18.374+03:00  INFO 56942 --- [order-service] [           main] o.s.c.openfeign.FeignClientFactoryBean   : For 'ticket-service' URL not provided. Will try picking an instance via load-balancing.
+2026-01-19T18:49:18.720+03:00  INFO 56942 --- [order-service] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-01-19T18:49:18.729+03:00  WARN 56942 --- [order-service] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-01-19T18:49:18.744+03:00  INFO 56942 --- [order-service] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-01-19T18:49:18.754+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-01-19T18:49:18.756+03:00  INFO 56942 --- [order-service] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T18:49:18.759+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-01-19T18:49:18.759+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-01-19T18:49:18.760+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-01-19T18:49:18.760+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-01-19T18:49:18.760+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-01-19T18:49:18.760+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-01-19T18:49:18.760+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-01-19T18:49:18.886+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-01-19T18:49:18.887+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-01-19T18:49:18.887+03:00  INFO 56942 --- [order-service] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-01-19T18:49:18.888+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1768837758888 with initial instances count: 0
+2026-01-19T18:49:18.890+03:00  INFO 56942 --- [order-service] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application ORDER-SERVICE with eureka with status UP
+2026-01-19T18:49:18.890+03:00  INFO 56942 --- [order-service] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1768837758890, current=UP, previous=STARTING]
+2026-01-19T18:49:18.891+03:00  INFO 56942 --- [order-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/kaan-mac-mini.local:order-service:8095: registering service...
+2026-01-19T18:49:18.901+03:00  INFO 56942 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8095 (http) with context path '/'
+2026-01-19T18:49:18.902+03:00  INFO 56942 --- [order-service] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8095
+2026-01-19T18:49:18.911+03:00  INFO 56942 --- [order-service] [           main] c.n.o.OrderServiceApplication            : Started OrderServiceApplication in 7.279 seconds (process running for 8.127)
+2026-01-19T18:49:18.921+03:00  INFO 56942 --- [order-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_ORDER-SERVICE/kaan-mac-mini.local:order-service:8095 - registration status: 204
+2026-01-19T18:49:48.888+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2026-01-19T18:49:48.889+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-01-19T18:49:48.921+03:00  INFO 56942 --- [order-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-01-19T18:49:49.606+03:00  INFO 56942 --- [order-service] [nio-8095-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-19T18:49:49.606+03:00  INFO 56942 --- [order-service] [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-19T18:49:49.609+03:00  INFO 56942 --- [order-service] [nio-8095-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-01-19T18:49:49.640+03:00  INFO 56942 --- [order-service] [nio-8095-exec-1] c.n.orderservice.service.OrderService    : Creating order for user: 9
+2026-01-19T18:49:49.643+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null] with root cause
+
+java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null
+	at com.nightflow.orderservice.service.OrderService.createOrder(OrderService.java:40) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:370) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.createOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.createOrder(OrderController.java:19) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+2026-01-19T18:49:49.904+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Order not found] with root cause
+
+java.lang.RuntimeException: Order not found
+	at com.nightflow.orderservice.service.OrderService.lambda$getOrder$0(OrderService.java:123) ~[classes/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.nightflow.orderservice.service.OrderService.getOrder(OrderService.java:123) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.getOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.getOrder(OrderController.java:29) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-19T18:51:54.449+03:00  INFO 56942 --- [order-service] [nio-8095-exec-3] c.n.orderservice.service.OrderService    : Creating order for user: 10
+2026-01-19T18:51:54.452+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-3] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null] with root cause
+
+java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null
+	at com.nightflow.orderservice.service.OrderService.createOrder(OrderService.java:40) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:370) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.createOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.createOrder(OrderController.java:19) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+2026-01-19T18:51:54.494+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Order not found] with root cause
+
+java.lang.RuntimeException: Order not found
+	at com.nightflow.orderservice.service.OrderService.lambda$getOrder$0(OrderService.java:123) ~[classes/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.nightflow.orderservice.service.OrderService.getOrder(OrderService.java:123) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.getOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.getOrder(OrderController.java:29) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-19T18:52:24.326+03:00  INFO 56942 --- [order-service] [nio-8095-exec-5] c.n.orderservice.service.OrderService    : Creating order for user: 11
+2026-01-19T18:52:24.331+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-5] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null] with root cause
+
+java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null
+	at com.nightflow.orderservice.service.OrderService.createOrder(OrderService.java:40) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:370) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.createOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.createOrder(OrderController.java:19) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+2026-01-19T18:52:24.352+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-6] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Order not found] with root cause
+
+java.lang.RuntimeException: Order not found
+	at com.nightflow.orderservice.service.OrderService.lambda$getOrder$0(OrderService.java:123) ~[classes/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.nightflow.orderservice.service.OrderService.getOrder(OrderService.java:123) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.getOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.getOrder(OrderController.java:29) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-19T18:53:21.735+03:00  INFO 56942 --- [order-service] [nio-8095-exec-7] c.n.orderservice.service.OrderService    : Creating order for user: 12
+2026-01-19T18:53:21.741+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-7] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null] with root cause
+
+java.lang.NullPointerException: Cannot invoke "java.util.List.stream()" because the return value of "com.nightflow.orderservice.dto.OrderRequest.items()" is null
+	at com.nightflow.orderservice.service.OrderService.createOrder(OrderService.java:40) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:158) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:370) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118) ~[spring-tx-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:719) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.createOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.createOrder(OrderController.java:19) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:903) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:649) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+2026-01-19T18:53:21.776+03:00 ERROR 56942 --- [order-service] [nio-8095-exec-8] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Order not found] with root cause
+
+java.lang.RuntimeException: Order not found
+	at com.nightflow.orderservice.service.OrderService.lambda$getOrder$0(OrderService.java:123) ~[classes/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.nightflow.orderservice.service.OrderService.getOrder(OrderService.java:123) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.getOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.getOrder(OrderController.java:29) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-19T18:54:18.771+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T18:54:35.900+03:00  INFO 56942 --- [order-service] [nio-8095-exec-9] c.n.orderservice.service.OrderService    : Creating order for user: 13
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, order_number, status, total_amount, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (category_id, category_name, event_id, event_name, order_id, price, quantity, reservation_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+2026-01-19T18:54:36.044+03:00 ERROR 56942 --- [order-service] [io-8095-exec-10] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.RuntimeException: Order not found] with root cause
+
+java.lang.RuntimeException: Order not found
+	at com.nightflow.orderservice.service.OrderService.lambda$getOrder$0(OrderService.java:123) ~[classes/:na]
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403) ~[na:na]
+	at com.nightflow.orderservice.service.OrderService.getOrder(OrderService.java:123) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:359) ~[spring-aop-7.0.2.jar:7.0.2]
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:715) ~[spring-aop-7.0.2.jar:7.0.2]
+	at com.nightflow.orderservice.service.OrderService$$SpringCGLIB$$0.getOrder(<generated>) ~[classes/:na]
+	at com.nightflow.orderservice.controller.OrderController.getOrder(OrderController.java:29) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:190) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:934) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:853) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:86) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:963) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:866) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1003) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:892) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:622) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:874) ~[spring-webmvc-7.0.2.jar:7.0.2]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:710) ~[tomcat-embed-core-11.0.15.jar:6.1]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:128) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:199) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-7.0.2.jar:7.0.2]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:107) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:77) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:397) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1778) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:946) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:480) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:57) ~[tomcat-embed-core-11.0.15.jar:11.0.15]
+	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
+
+2026-01-19T18:55:32.960+03:00  INFO 56942 --- [order-service] [nio-8095-exec-1] c.n.orderservice.service.OrderService    : Creating order for user: 14
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, order_number, status, total_amount, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (category_id, category_name, event_id, event_name, order_id, price, quantity, reservation_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+Hibernate: 
+    select
+        i1_0.order_id,
+        i1_0.id,
+        i1_0.category_id,
+        i1_0.category_name,
+        i1_0.event_id,
+        i1_0.event_name,
+        i1_0.price,
+        i1_0.quantity,
+        i1_0.reservation_id 
+    from
+        order_items i1_0 
+    where
+        i1_0.order_id=?
+2026-01-19T18:56:20.856+03:00  INFO 56942 --- [order-service] [nio-8095-exec-3] c.n.orderservice.service.OrderService    : Creating order for user: 15
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, order_number, status, total_amount, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (category_id, category_name, event_id, event_name, order_id, price, quantity, reservation_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+Hibernate: 
+    select
+        i1_0.order_id,
+        i1_0.id,
+        i1_0.category_id,
+        i1_0.category_name,
+        i1_0.event_id,
+        i1_0.event_name,
+        i1_0.price,
+        i1_0.quantity,
+        i1_0.reservation_id 
+    from
+        order_items i1_0 
+    where
+        i1_0.order_id=?
+2026-01-19T18:56:22.725+03:00  INFO 56942 --- [order-service] [nio-8095-exec-5] c.n.orderservice.service.OrderService    : Creating order for user: 16
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, order_number, status, total_amount, updated_at, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (category_id, category_name, event_id, event_name, order_id, price, quantity, reservation_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.order_number,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.order_number=?
+Hibernate: 
+    select
+        i1_0.order_id,
+        i1_0.id,
+        i1_0.category_id,
+        i1_0.category_name,
+        i1_0.event_id,
+        i1_0.event_name,
+        i1_0.price,
+        i1_0.quantity,
+        i1_0.reservation_id 
+    from
+        order_items i1_0 
+    where
+        i1_0.order_id=?
+2026-01-19T18:59:18.778+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:04:18.786+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:09:18.795+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:14:18.800+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:19:18.804+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:24:18.811+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:29:18.815+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:34:18.821+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:39:18.828+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:44:18.835+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:49:18.844+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:54:18.849+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:59:18.851+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:04:18.860+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:09:18.866+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:14:18.871+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:19:18.876+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:24:18.884+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:29:18.896+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:34:18.909+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:39:18.914+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:44:18.921+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:49:18.933+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:54:18.948+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:59:18.961+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T21:04:18.968+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T21:09:18.975+03:00  INFO 56942 --- [order-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration

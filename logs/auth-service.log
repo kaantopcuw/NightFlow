@@ -1,0 +1,169 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.nightflow:auth-service >---------------------
+[INFO] Building auth-service 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.1:run (default-cli) > test-compile @ auth-service >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ auth-service ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ auth-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ auth-service ---
+[INFO] skip non existing resourceDirectory /Users/kaantopcu/Projects/NightFlow/auth-service/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ auth-service ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.1:run (default-cli) < test-compile @ auth-service <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.1:run (default-cli) @ auth-service ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.1)
+
+2026-01-19T18:49:09.811+03:00  INFO 56890 --- [auth-service] [           main] c.n.authservice.AuthServiceApplication   : Starting AuthServiceApplication using Java 25.0.1 with PID 56890 (/Users/kaantopcu/Projects/NightFlow/auth-service/target/classes started by kaantopcu in /Users/kaantopcu/Projects/NightFlow/auth-service)
+2026-01-19T18:49:09.836+03:00  INFO 56890 --- [auth-service] [           main] c.n.authservice.AuthServiceApplication   : The following 1 profile is active: "default"
+2026-01-19T18:49:09.996+03:00  INFO 56890 --- [auth-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Fetching config from server at : http://localhost:8888/
+2026-01-19T18:49:09.996+03:00  INFO 56890 --- [auth-service] [           main] o.s.c.c.c.ConfigServerConfigDataLoader   : Located environment: name=auth-service, profiles=[default], label=null, version=null, state=null
+2026-01-19T18:49:11.369+03:00  INFO 56890 --- [auth-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-19T18:49:11.705+03:00  INFO 56890 --- [auth-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 321 ms. Found 1 JPA repository interface.
+2026-01-19T18:49:12.428+03:00  INFO 56890 --- [auth-service] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=be5ee413-541c-3bd6-80e5-7c1e3bc01d12
+2026-01-19T18:49:12.931+03:00  INFO 56890 --- [auth-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8090 (http)
+2026-01-19T18:49:12.937+03:00  INFO 56890 --- [auth-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-19T18:49:12.937+03:00  INFO 56890 --- [auth-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-01-19T18:49:13.005+03:00  INFO 56890 --- [auth-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3007 ms
+2026-01-19T18:49:13.457+03:00  INFO 56890 --- [auth-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-01-19T18:49:13.489+03:00  INFO 56890 --- [auth-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.0.Final
+2026-01-19T18:49:13.870+03:00  INFO 56890 --- [auth-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-19T18:49:13.921+03:00  INFO 56890 --- [auth-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-19T18:49:14.303+03:00  INFO 56890 --- [auth-service] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71852f76
+2026-01-19T18:49:14.305+03:00  INFO 56890 --- [auth-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-19T18:49:14.368+03:00  WARN 56890 --- [auth-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-19T18:49:14.497+03:00  INFO 56890 --- [auth-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5433/nightflow_auth]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.15
+	Default catalog/schema: nightflow_auth/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-19T18:49:15.621+03:00  INFO 56890 --- [auth-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-19T18:49:15.742+03:00  INFO 56890 --- [auth-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-19T18:49:15.826+03:00  INFO 56890 --- [auth-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-19T18:49:15.984+03:00  INFO 56890 --- [auth-service] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-19T18:49:15.985+03:00  WARN 56890 --- [auth-service] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-19T18:49:16.145+03:00  WARN 56890 --- [auth-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-19T18:49:17.109+03:00  INFO 56890 --- [auth-service] [           main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-01-19T18:49:17.132+03:00  WARN 56890 --- [auth-service] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-01-19T18:49:17.140+03:00  INFO 56890 --- [auth-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 16 endpoints beneath base path '/actuator'
+2026-01-19T18:49:17.219+03:00  INFO 56890 --- [auth-service] [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-01-19T18:49:17.241+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-01-19T18:49:17.245+03:00  INFO 56890 --- [auth-service] [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-01-19T18:49:17.249+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-01-19T18:49:17.506+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-01-19T18:49:17.506+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-01-19T18:49:17.508+03:00  INFO 56890 --- [auth-service] [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-01-19T18:49:17.509+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1768837757509 with initial instances count: 0
+2026-01-19T18:49:17.512+03:00  INFO 56890 --- [auth-service] [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application AUTH-SERVICE with eureka with status UP
+2026-01-19T18:49:17.512+03:00  INFO 56890 --- [auth-service] [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1768837757512, current=UP, previous=STARTING]
+2026-01-19T18:49:17.513+03:00  INFO 56890 --- [auth-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_AUTH-SERVICE/auth-service:8090: registering service...
+2026-01-19T18:49:17.529+03:00  INFO 56890 --- [auth-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8090 (http) with context path '/'
+2026-01-19T18:49:17.529+03:00  INFO 56890 --- [auth-service] [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8090
+2026-01-19T18:49:17.540+03:00  INFO 56890 --- [auth-service] [foReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_AUTH-SERVICE/auth-service:8090 - registration status: 204
+2026-01-19T18:49:17.541+03:00  INFO 56890 --- [auth-service] [           main] c.n.authservice.AuthServiceApplication   : Started AuthServiceApplication in 9.571 seconds (process running for 10.716)
+Hibernate: select count(*) from users u1_0
+2026-01-19T18:49:47.509+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-01-19T18:49:47.509+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-01-19T18:49:47.510+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-01-19T18:49:47.510+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-01-19T18:49:47.510+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-01-19T18:49:47.510+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2026-01-19T18:49:47.510+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-01-19T18:49:47.541+03:00  INFO 56890 --- [auth-service] [reshExecutor-%d] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-01-19T18:49:48.246+03:00  INFO 56890 --- [auth-service] [nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-19T18:49:48.246+03:00  INFO 56890 --- [auth-service] [nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-19T18:49:48.250+03:00  INFO 56890 --- [auth-service] [nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+2026-01-19T18:54:17.274+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id from users u1_0 where u1_0.email=? fetch first ? rows only
+Hibernate: insert into users (created_at,email,password,role,username) values (?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.email,u1_0.password,u1_0.role,u1_0.username from users u1_0 where u1_0.email=?
+2026-01-19T18:59:17.286+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:04:17.295+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:09:17.303+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:14:17.312+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:19:17.319+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:24:17.333+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:29:17.340+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:34:17.353+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:39:17.365+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:44:17.375+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:49:17.385+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:54:17.397+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T19:59:17.402+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:04:17.413+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:09:17.423+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:14:17.434+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:19:17.446+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:24:17.454+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:29:17.459+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:34:17.471+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:39:17.478+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:44:17.482+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:49:17.490+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:54:17.497+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T20:59:17.505+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T21:04:17.516+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-01-19T21:09:17.522+03:00  INFO 56890 --- [auth-service] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration

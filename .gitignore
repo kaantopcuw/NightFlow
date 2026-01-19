@@ -1,0 +1,16 @@
+auth-service/
+ticket-service/
+shopping-cart-service/
+order-service/
+checkin-service/
+event-catalog-service/
+notification-service/
+venue-service/
+gateway-service/
+discovery-server/
+config-server/
+e2e-tests/
+.idea/
+target/
+*.iml
+.DS_Store
