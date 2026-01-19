@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: discovery-server # Config Server'daki discovery-server.yml ile eşleşir
+  config:
+    import: "optional:configserver:http://localhost:8888/" # Config Server adresi

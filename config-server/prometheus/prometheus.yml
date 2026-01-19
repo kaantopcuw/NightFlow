@@ -1,0 +1,70 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "gateway-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8080"]
+        labels:
+          application: "gateway-service"
+
+  - job_name: "auth-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8090"]
+        labels:
+          application: "auth-service"
+
+  - job_name: "venue-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8091"]
+        labels:
+          application: "venue-service"
+
+  - job_name: "event-catalog-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8092"]
+        labels:
+          application: "event-catalog-service"
+
+  - job_name: "ticket-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8093"]
+        labels:
+          application: "ticket-service"
+
+  - job_name: "shopping-cart-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8094"]
+        labels:
+          application: "shopping-cart-service"
+
+  - job_name: "order-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8095"]
+        labels:
+          application: "order-service"
+
+  - job_name: "notification-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8096"]
+        labels:
+          application: "notification-service"
+
+  - job_name: "checkin-service"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["host.docker.internal:8097"]
+        labels:
+          application: "checkin-service"

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <labels>
+            service_name = venue-service
+            host = ${HOSTNAME}
+            level = %level
+        </labels>
+        <message>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </message>
+        <http>
+            <url>http://localhost:3100/loki/api/v1/push</url>
+        </http>
+        <batch>
+            <maxItems>100</maxItems>
+            <timeoutMs>5000</timeoutMs>
+        </batch>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="LOKI"/>
+    </root>
+</configuration>
