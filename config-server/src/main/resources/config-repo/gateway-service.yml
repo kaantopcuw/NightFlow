@@ -1,0 +1,94 @@
+server:
+  port: 8080 # Gateway 8080'de çalışsın
+
+spring:
+  application:
+    name: gateway-service
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      # Otomatik keşfi açıyoruz (Opsiyonel, manuel rota yazdığın için false yapabilirsin ama true kalsın zarar gelmez)
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true # Servis isimlerini küçük harfe çevirir (auth-service gibi)
+      # Manuel Rota Tanımı - WebFlux Server 5.x için doğru namespace
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - StripPrefix=1
+            - id: venue-service
+              uri: lb://venue-service
+              predicates:
+                - Path=/api/venue/**
+              filters:
+                - StripPrefix=1
+            - id: event-catalog-service
+              uri: lb://event-catalog-service
+              predicates:
+                - Path=/api/events/**
+              filters:
+                - StripPrefix=1
+            - id: ticket-service
+              uri: lb://ticket-service
+              predicates:
+                - Path=/api/tickets/**
+              filters:
+                - StripPrefix=1
+            - id: shopping-cart-service
+              uri: lb://shopping-cart-service
+              predicates:
+                - Path=/api/cart/**
+              filters:
+                - StripPrefix=1
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/api/orders/**
+              filters:
+                - StripPrefix=1
+            - id: checkin-service
+              uri: lb://checkin-service
+              predicates:
+                - Path=/api/checkin/**
+              filters:
+                - StripPrefix=1
+            - id: notification-service
+              uri: lb://notification-service
+              predicates:
+                - Path=/api/notifications/**
+              filters:
+                - StripPrefix=1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # Service Discovery adresi
+  instance:
+    prefer-ip-address: true # IP adresi kullan
+    instance-id: ${spring.application.name}:${server.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+  endpoint:
+    gateway:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: "http://localhost:4318/v1/traces"
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

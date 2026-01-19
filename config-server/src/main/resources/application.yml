@@ -1,0 +1,20 @@
+server:
+  port: 8888 # Config Server standart portu
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native # Ayarları yerel dosya sisteminden oku (Production'da 'git' kullanılır)
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config-repo # Ayar dosyalarını nerede arayacak?
+
+# Actuator Endpoint'lerini açalım ki sunucunun durumunu görebilelim
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

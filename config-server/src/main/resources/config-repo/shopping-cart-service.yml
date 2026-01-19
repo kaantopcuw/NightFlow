@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: shopping-cart-service
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8094
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+
+logging:
+  level:
+    com.nightflow.shoppingcartservice.client: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics"
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: "http://localhost:4318/v1/traces"
