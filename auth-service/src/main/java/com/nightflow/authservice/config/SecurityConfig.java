@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login", "/actuator/**").permitAll() // Bu adreslere herkes girebilir
+                        .requestMatchers("/auth/register", "/auth/login", "/actuator/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll() // Bu adreslere herkes girebilir
                         .anyRequest().authenticated() // Diğer her yer kilitli
                 );
 
