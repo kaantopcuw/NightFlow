@@ -163,52 +163,96 @@ curl http://localhost:8080/api/orders \
 
 ---
 
-## 📬 Common API Endpoints
+## 📬 Service API Endpoints
 
 ### Auth Service (`/api/auth`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/register` | Register new user |
-| `POST` | `/login` | Authenticate & get JWT |
-| `GET` | `/me` | Get current user info |
-| `POST` | `/refresh` | Refresh JWT token |
+| `POST` | `/login` | login |
+| `POST` | `/register` | register |
+| `GET` | `/test` | test |
 
-### Event Catalog (`/api/events`)
+### Venue Service (`/api/venues`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/` | List all events |
-| `GET` | `/{id}` | Get event details |
-| `GET` | `/search?q=<term>` | Search events |
-| `GET` | `/category/{cat}` | Filter by category |
+| `GET` | `/organizers` | findAll_1 |
+| `POST` | `/organizers` | create_1 |
+| `GET` | `/organizers/slug/{slug}` | findBySlug |
+| `GET` | `/organizers/{id}` | findById_1 |
+| `PUT` | `/organizers/{id}` | update_1 |
+| `DELETE` | `/organizers/{id}` | delete_1 |
+| `PATCH` | `/organizers/{id}/status` | updateStatus |
+| `GET` | `/venues` | findAll |
+| `POST` | `/venues` | create |
+| `GET` | `/venues/city/{city}` | findByCity |
+| `PATCH` | `/venues/reservations/{reservationId}/cancel` | cancelReservation |
+| `PATCH` | `/venues/reservations/{reservationId}/confirm` | confirmReservation |
+| `GET` | `/venues/search` | search |
+| `GET` | `/venues/type/{type}` | findByType |
+| `GET` | `/venues/{id}` | findById |
+| `PUT` | `/venues/{id}` | update |
+| `DELETE` | `/venues/{id}` | delete |
+| `GET` | `/venues/{venueId}/reservations` | getReservations |
+| `POST` | `/venues/{venueId}/reserve` | reserve |
+
+### Event Catalog Service (`/api/events`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/events` | findAll |
+| `POST` | `/events` | create |
+| `GET` | `/events/category/{category}` | findByCategory |
+| `GET` | `/events/city/{city}` | findByCity |
+| `GET` | `/events/featured` | findFeatured |
+| `GET` | `/events/slug/{slug}` | findBySlug |
+| `GET` | `/events/upcoming` | findUpcoming |
+| `GET` | `/events/{id}` | findById |
+| `PUT` | `/events/{id}` | update |
+| `DELETE` | `/events/{id}` | delete |
+| `PATCH` | `/events/{id}/status` | updateStatus |
 
 ### Ticket Service (`/api/tickets`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/event/{eventId}` | Get available tickets |
-| `POST` | `/reserve` | Reserve tickets |
-| `DELETE` | `/reserve/{id}` | Cancel reservation |
+| `POST` | `/ticket-categories` | create |
+| `GET` | `/ticket-categories/event/{eventId}` | findByEventId |
+| `GET` | `/ticket-categories/{id}` | findById |
+| `PUT` | `/ticket-categories/{id}` | update |
+| `POST` | `/tickets/confirm-sale` | confirmSale |
+| `GET` | `/tickets/event/{eventId}` | getCategoriesByEvent |
+| `GET` | `/tickets/event/{eventId}/all` | getAllTicketsByEvent |
+| `POST` | `/tickets/reserve` | reserveTickets |
+| `DELETE` | `/tickets/reserve/{sessionId}` | cancelReservation |
+| `GET` | `/tickets/{ticketCode}` | getTicketByCode |
+| `PATCH` | `/tickets/{ticketCode}/checkin` | markAsCheckedIn |
 
-### Shopping Cart (`/api/cart`)
+### Shopping Cart Service (`/api/cart`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/` | Get cart contents |
-| `POST` | `/items` | Add item to cart |
-| `DELETE` | `/items/{id}` | Remove item |
-| `DELETE` | `/` | Clear cart |
+| `POST` | `/cart/add` | addToCart |
+| `GET` | `/cart/{sessionId}` | getCart |
+| `DELETE` | `/cart/{sessionId}` | clearCart |
+| `DELETE` | `/cart/{sessionId}/item/{index}` | removeFromCart |
 
 ### Order Service (`/api/orders`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/` | Create order from cart |
-| `GET` | `/{orderNumber}` | Get order details |
-| `GET` | `/my-orders` | List user's orders |
+| `POST` | `/orders` | createOrder |
+| `GET` | `/orders/{orderNumber}` | getOrder |
+| `POST` | `/orders/{orderNumber}/pay` | payOrder |
 
-### Check-in Service (`/api/checkin`)
+### Checkin Service (`/api/checkin`)
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/validate` | Validate QR code |
-| `POST` | `/event/{id}/preload` | Preload tickets to cache |
-| `GET` | `/event/{id}/stats` | Get check-in statistics |
+| `POST` | `/checkin/event/{eventId}/preload` | preloadEventTickets |
+| `GET` | `/checkin/event/{eventId}/stats` | getEventStats |
+| `GET` | `/checkin/health` | health |
+| `GET` | `/checkin/ticket/{ticketCode}` | getTicketStatus |
+| `POST` | `/checkin/validate` | validateAndCheckIn |
+
+### Notification Service (`/api/notifications`)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/notifications/health` | health |
 
 ---
 

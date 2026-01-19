@@ -11,7 +11,7 @@ spring:
       # Otomatik keşfi açıyoruz (Opsiyonel, manuel rota yazdığın için false yapabilirsin ama true kalsın zarar gelmez)
       discovery:
         locator:
-          enabled: true
+          enabled: false
           lower-case-service-id: true # Servis isimlerini küçük harfe çevirir (auth-service gibi)
       # Manuel Rota Tanımı - WebFlux Server 5.x için doğru namespace
       server:
@@ -66,6 +66,56 @@ spring:
               filters:
                 - StripPrefix=1
 
+            # Swagger Routes
+            - id: auth-service-swagger
+              uri: lb://auth-service
+              predicates:
+                - Path=/aggregate/auth-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: venue-service-swagger
+              uri: lb://venue-service
+              predicates:
+                - Path=/aggregate/venue-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: event-catalog-service-swagger
+              uri: lb://event-catalog-service
+              predicates:
+                - Path=/aggregate/event-catalog-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: ticket-service-swagger
+              uri: lb://ticket-service
+              predicates:
+                - Path=/aggregate/ticket-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: shopping-cart-service-swagger
+              uri: lb://shopping-cart-service
+              predicates:
+                - Path=/aggregate/shopping-cart-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: order-service-swagger
+              uri: lb://order-service
+              predicates:
+                - Path=/aggregate/order-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: checkin-service-swagger
+              uri: lb://checkin-service
+              predicates:
+                - Path=/aggregate/checkin-service/api-docs
+              filters:
+                - SetPath=/api-docs
+            - id: notification-service-swagger
+              uri: lb://notification-service
+              predicates:
+                - Path=/aggregate/notification-service/api-docs
+              filters:
+                - SetPath=/api-docs
+
 eureka:
   client:
     serviceUrl:
@@ -92,3 +142,25 @@ management:
 logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: auth-service
+        url: /aggregate/auth-service/api-docs
+      - name: venue-service
+        url: /aggregate/venue-service/api-docs
+      - name: event-catalog-service
+        url: /aggregate/event-catalog-service/api-docs
+      - name: ticket-service
+        url: /aggregate/ticket-service/api-docs
+      - name: shopping-cart-service
+        url: /aggregate/shopping-cart-service/api-docs
+      - name: order-service
+        url: /aggregate/order-service/api-docs
+      - name: checkin-service
+        url: /aggregate/checkin-service/api-docs
+      - name: notification-service
+        url: /aggregate/notification-service/api-docs
+  api-docs:
+    path: /api-docs
