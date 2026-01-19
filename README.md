@@ -139,6 +139,19 @@ User → Gateway → Auth → Event Catalog → Ticket → Cart → Order → Ka
 <td>Spring Security, JJWT 0.13.0, PostgreSQL</td>
 </tr>
 
+## 🔭 Observability
+
+NightFlow implements a complete **LGTM Stack** for monitoring:
+
+| Tool | Port | Description |
+|------|------|-------------|
+| **Grafana** | `3000` | Visualization Dashboard (User: `admin` / Pass: `password`) |
+| **Prometheus**| `9090` | Metrics Collection |
+| **Loki** | `3100` | Centralized Logging |
+| **Tempo** | `3200` | Distributed Tracing (OTLP) |
+
+👉 **[View Observability Guide](docs/observability.md)** for detailed usage instructions.
+
 <tr>
 <td><strong>🏟️ Venue Service</strong></td>
 <td>Venue management, seat layouts, and organizer profiles</td>
@@ -241,7 +254,7 @@ User → Gateway → Auth → Event Catalog → Ticket → Cart → Order → Ka
 
 ---
 
-## � Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -249,7 +262,7 @@ Before you begin, ensure you have the following installed:
 
 - ☕ **JDK 25** or later
 - 🐋 **Docker** & **Docker Compose**
-- 📦 **Maven 3.9+**
+- 📦 **Maven 3.9+** (or use included `./mvnw` wrapper)
 
 ### 1️⃣ Clone the Repository
 
@@ -258,13 +271,19 @@ git clone https://github.com/kaantopcuw/NightFlow.git
 cd NightFlow
 ```
 
-### 2️⃣ Start Infrastructure
+### 2️⃣ Start Everything with `manage.sh`
 
-Launch all databases and message brokers using Docker Compose:
+NightFlow includes a powerful CLI tool for managing all services:
 
 ```bash
-cd config-server
-docker-compose up -d
+# Start infrastructure (databases, Kafka, observability stack) + all services
+./manage.sh start all
+
+# Check status
+./manage.sh status
+
+# View logs
+./manage.sh logs auth-service
 ```
 
 This starts:
@@ -272,43 +291,35 @@ This starts:
 - 🍃 **MongoDB** (27017) - Event Catalog
 - 🔴 **Redis** (6379) - Cart, Cache, Check-in
 - 📨 **Kafka + Zookeeper** (9092, 2181) - Event messaging
+- 📊 **Grafana** (3000), **Prometheus** (9090), **Loki** (3100), **Tempo** (3200) - Observability
+- 🎯 **All 11 microservices**
 
-### 3️⃣ Start Services
+### 3️⃣ Verify Installation
 
-Run each service individually (recommended order):
+| Dashboard | URL |
+|-----------|-----|
+| **Eureka** (Service Registry) | http://localhost:8761 |
+| **API Gateway** | http://localhost:8080 |
+| **Grafana** (Monitoring) | http://localhost:3000 (admin/password) |
 
-```bash
-# 1. Config Server (must start first)
-cd config-server && ./mvnw spring-boot:run
-
-# 2. Discovery Server
-cd discovery-server && ./mvnw spring-boot:run
-
-# 3. Business Services (can run in parallel)
-cd auth-service && ./mvnw spring-boot:run
-cd venue-service && ./mvnw spring-boot:run
-cd event-catalog-service && ./mvnw spring-boot:run
-cd ticket-service && ./mvnw spring-boot:run
-cd shopping-cart-service && ./mvnw spring-boot:run
-cd order-service && ./mvnw spring-boot:run
-cd notification-service && ./mvnw spring-boot:run
-cd checkin-service && ./mvnw spring-boot:run
-
-# 4. Gateway (start last)
-cd gateway-service && ./mvnw spring-boot:run
-```
-
-Or use the helper script:
+### 4️⃣ Run E2E Tests
 
 ```bash
-./e2e-tests/scripts/start-test-env.sh
+cd e2e-tests
+./mvnw verify
 ```
 
-### 4️⃣ Verify Installation
+### `manage.sh` Commands
 
-- **Eureka Dashboard**: [http://localhost:8761](http://localhost:8761)
-- **API Gateway**: [http://localhost:8080](http://localhost:8080)
-- **Swagger UI** (per service): `http://localhost:{PORT}/swagger-ui.html`
+| Command | Description |
+|---------|-------------|
+| `./manage.sh start all` | Start infrastructure + all services |
+| `./manage.sh start infra` | Start only Docker infrastructure |
+| `./manage.sh start auth-service` | Start a specific service |
+| `./manage.sh stop all` | Stop all services |
+| `./manage.sh restart all` | Restart everything |
+| `./manage.sh status` | Show status of all services |
+| `./manage.sh logs <service>` | Tail logs for a service |
 
 ---
 

@@ -203,6 +203,13 @@ graph TD
 
 ## 🔧 Infrastructure Services
 
+### 🔭 Observability Stack
+
+Centralized monitoring provided by Grafana, Loki, Tempo, and Prometheus.
+See [Observability Guide](observability.md) for details.
+
+---
+
 ### ⚙️ Config Server (8888)
 
 Provides centralized configuration for all services. Configuration files are stored in `config-server/src/main/resources/config-repo/`.

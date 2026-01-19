@@ -15,3 +15,8 @@ target/
 *.iml
 .DS_Store
 logs/
+
+# Runtime files
+.run/
+logs/
+observePlan.md
