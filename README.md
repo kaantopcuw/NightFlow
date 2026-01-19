@@ -48,15 +48,15 @@ Each service is independently versioned and maintained.
 
 1. **Clone the repository** (recursively if using submodules):
    ```bash
-   git clone https://github.com/kaantopcu/NightFlow.git
+   git clone https://github.com/kaantopcuw/NightFlow.git
    cd NightFlow
    ```
 
-2. **Start Infrastructure**:
-   Launch databases, message brokers, and discovery services.
+1. **Start Infrastructure**:
+   Launch databases, message brokers, and discovery services using the helper script.
    ```bash
-   cd config-server
-   docker-compose up -d
+   ./config-server/scripts/start-dev.sh
+   # Or manually: cd config-server && docker-compose up -d
    ```
 
 3. **Build & Run Services**:
@@ -88,4 +88,4 @@ Run tests with:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-*Built with ❤️ by [Kaan Topcu](https://github.com/kaantopcu).*
+*Built with ❤️ by [Kaan Topçu](https://github.com/kaantopcuw).*

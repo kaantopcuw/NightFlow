@@ -14,3 +14,4 @@ e2e-tests/
 target/
 *.iml
 .DS_Store
+logs/
