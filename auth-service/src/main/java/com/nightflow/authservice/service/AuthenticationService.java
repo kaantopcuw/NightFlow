@@ -47,7 +47,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword())) // Şifreyi hashle
-                .role("USER") // Varsayılan rol
+                .role(request.getRole() != null ? request.getRole() : "USER") // Varsayılan rol
                 .build();
 
         // Veritabanına kaydet
@@ -95,4 +95,32 @@ public class AuthenticationService {
                 .role(user.getRole())
                 .build();
     }
+
+    /**
+     * Token doğrulama ve kullanıcı bilgisi alma
+     * @param token JWT Token
+     * @return Kullanıcı bilgileri
+     */
+    public AuthResponse validateToken(String token) {
+        // 1. Token'dan username al
+        String username = jwtService.extractUsername(token);
+
+        // 2. Kullanıcıyı bul
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı."));
+
+        // 3. Token geçerli mi?
+        if (!jwtService.validateToken(token)) {
+             throw new RuntimeException("Geçersiz veya süresi dolmuş token.");
+        }
+
+        // 4. Bilgileri dön
+        return AuthResponse.builder()
+                .token(token)
+                .username(user.getUsername())
+                .id(user.getId())
+                .role(user.getRole())
+                .build();
+    }
 }
+

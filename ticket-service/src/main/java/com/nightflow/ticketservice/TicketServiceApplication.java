@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableScheduling
+@org.springframework.cloud.openfeign.EnableFeignClients
 public class TicketServiceApplication {
 
 	public static void main(String[] args) {

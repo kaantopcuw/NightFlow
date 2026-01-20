@@ -11,67 +11,82 @@ import static io.restassured.RestAssured.given;
 public class OrderClient {
     
     private final RequestSpecification spec;
+    private String authToken;
     
     public OrderClient(RequestSpecification spec) {
         this.spec = spec;
     }
     
     /**
-     * Create order from cart
+     * Set the auth token for subsequent requests
      */
+    public void setAuthToken(String token) {
+        this.authToken = token;
+    }
+    
     /**
      * Create order
      */
     public Response createOrder(String userId, Object items, java.math.BigDecimal totalAmount) {
-        // Simple serialization since we don't have a full ObjectMapper here without dependencies
-        // In a real scenario, we'd use Jackson. Here we construct a basic JSON.
-        // For simplicity in this environment, let's assume the test passes a JSON string for items, 
-        // or we use a library if available.
-        // Actually, let's change signature to accept the Body directly if complex.
-        // But for specific test case:
-        
-        // Let's rely on RestAssured serialization if we pass a Map/Object.
-        // But to avoid class dependency issues, let's create a map structure.
-        
-         java.util.Map<String, Object> body = new java.util.HashMap<>();
-         body.put("userId", userId);
-         body.put("items", items);
-         body.put("totalAmount", totalAmount);
+        return createOrder(userId, items, totalAmount, null);
+    }
 
-        return given()
-                .spec(spec)
-                .body(body)
-                .when()
-                .post("/api/orders");
+    public Response createOrder(String userId, Object items, java.math.BigDecimal totalAmount, String token) {
+        java.util.Map<String, Object> body = new java.util.HashMap<>();
+        body.put("userId", userId);
+        body.put("items", items);
+        body.put("totalAmount", totalAmount);
+
+        RequestSpecification s = given().spec(spec).body(body);
+        String effectiveToken = token != null ? token : authToken;
+        if (effectiveToken != null) {
+            s.header("Authorization", "Bearer " + effectiveToken);
+        }
+
+        return s.when().post("/api/orders");
     }
     
+    /**
+     * Pay Order
+     */
+    public Response payOrder(String orderNumber) {
+        RequestSpecification s = given().spec(spec);
+        if (authToken != null) {
+            s.header("Authorization", "Bearer " + authToken);
+        }
+        return s.when().post("/api/orders/" + orderNumber + "/pay");
+    }
+
     /**
      * Get order by ID (Order Number UUID)
      */
     public Response getOrder(String orderNumber) {
-        return given()
-                .spec(spec)
-                .when()
-                .get("/api/orders/" + orderNumber);
+        RequestSpecification s = given().spec(spec);
+        if (authToken != null) {
+            s.header("Authorization", "Bearer " + authToken);
+        }
+        return s.when().get("/api/orders/" + orderNumber);
     }
     
     /**
      * Get orders for user
      */
     public Response getOrdersByUser(String userId) {
-        return given()
-                .spec(spec)
-                .when()
-                .get("/api/orders/user/" + userId);
+        RequestSpecification s = given().spec(spec);
+        if (authToken != null) {
+            s.header("Authorization", "Bearer " + authToken);
+        }
+        return s.when().get("/api/orders/user/" + userId);
     }
     
     /**
      * Cancel order
      */
     public Response cancelOrder(Long orderId) {
-        return given()
-                .spec(spec)
-                .when()
-                .post("/api/orders/" + orderId + "/cancel");
+        RequestSpecification s = given().spec(spec);
+        if (authToken != null) {
+            s.header("Authorization", "Bearer " + authToken);
+        }
+        return s.when().post("/api/orders/" + orderId + "/cancel");
     }
 }

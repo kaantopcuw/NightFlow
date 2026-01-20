@@ -19,6 +19,33 @@ public class TicketClient {
     /**
      * Get tickets for an event
      */
+    /**
+     * Create Ticket Category (Organizer only)
+     */
+    public Response createCategory(String token, String eventId, String name, double price, int quantity) {
+        String body = """
+            {
+                "eventId": "%s",
+                "name": "%s",
+                "description": "Test Category",
+                "price": %s,
+                "totalQuantity": %d,
+                "salesStartAt": "2030-01-01T00:00:00",
+                "salesEndAt": "2030-12-31T23:59:59"
+            }
+            """.formatted(eventId, name, price, quantity);
+
+        return given()
+                .spec(spec)
+                .header("Authorization", "Bearer " + token)
+                .body(body)
+                .when()
+                .post("/api/ticket-categories");
+    }
+
+    /**
+     * Get tickets for an event
+     */
     public Response getTicketsByEvent(Long eventId) {
         return given()
                 .spec(spec)
@@ -29,14 +56,14 @@ public class TicketClient {
     /**
      * Reserve tickets
      */
-    public Response reserveTickets(Long ticketId, int quantity, String userId) {
+    public Response reserveTickets(Long categoryId, int quantity, String sessionId) {
         String body = """
             {
-                "ticketId": %d,
+                "categoryId": %d,
                 "quantity": %d,
-                "userId": "%s"
+                "sessionId": "%s"
             }
-            """.formatted(ticketId, quantity, userId);
+            """.formatted(categoryId, quantity, sessionId);
         
         return given()
                 .spec(spec)
@@ -63,5 +90,16 @@ public class TicketClient {
                 .spec(spec)
                 .when()
                 .post("/api/tickets/cancel/" + reservationId);
+    }
+    
+    /**
+     * Get My Tickets
+     */
+    public Response getMyTickets(String token) {
+        return given()
+                .spec(spec)
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("/api/tickets/my-tickets");
     }
 }

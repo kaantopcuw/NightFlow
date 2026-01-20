@@ -4,6 +4,7 @@
 # 🎮 NightFlow Service Manager
 # ============================================
 # Usage:
+#   ./manage.sh build [all|service_name]
 #   ./manage.sh start [all|infra|service_name]
 #   ./manage.sh stop [all|infra|service_name]
 #   ./manage.sh restart [all|service_name]
@@ -92,6 +93,36 @@ wait_for_port() {
     done
     echo -e "${RED} FAILED${NC}"
     return 1
+}
+
+build_all() {
+    log_info "Building all services..."
+    ./mvnw clean install -DskipTests
+    if [ $? -eq 0 ]; then
+        log_success "All services built successfully!"
+    else
+        log_error "Build failed!"
+        exit 1
+    fi
+}
+
+build_service() {
+    local service=$1
+    local service_dir="$PROJECT_ROOT/$service"
+    
+    if [ ! -d "$service_dir" ]; then
+        log_error "Service directory not found: $service"
+        exit 1
+    fi
+    
+    log_info "Building $service..."
+    ./mvnw -f "$service_dir/pom.xml" clean install -DskipTests
+    if [ $? -eq 0 ]; then
+        log_success "$service built successfully!"
+    else
+        log_error "Build failed for $service!"
+        exit 1
+    fi
 }
 
 start_infra() {
@@ -212,6 +243,20 @@ COMMAND=$1
 TARGET=$2
 
 case "$COMMAND" in
+    build)
+        if [ "$TARGET" == "all" ] || [ -z "$TARGET" ]; then
+            build_all
+        else
+            port=$(get_port "$TARGET")
+            if [ -n "$port" ]; then
+                build_service "$TARGET"
+            else
+                log_error "Unknown service: $TARGET. Usage: ./manage.sh build [all|service_name]"
+                exit 1
+            fi
+        fi
+        ;;
+
     start)
         if [ "$TARGET" == "all" ]; then
             start_all
@@ -284,8 +329,13 @@ case "$COMMAND" in
         ;;
 
     *)
-        echo "Usage: $0 {start|stop|restart|status|logs} [target]"
-        echo "  Targets: all, infra, <service-name>"
+        echo "Usage: $0 {build|start|stop|restart|status|logs} [target]"
+        echo "  build:   all, <service-name>"
+        echo "  start:   all, infra, <service-name>"
+        echo "  stop:    all, infra, <service-name>"
+        echo "  restart: all, <service-name>"
+        echo "  status:  (no target needed)"
+        echo "  logs:    <service-name>"
         exit 1
         ;;
 esac

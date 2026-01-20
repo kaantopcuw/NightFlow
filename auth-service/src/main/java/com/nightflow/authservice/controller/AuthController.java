@@ -64,6 +64,27 @@ public class AuthController {
     }
 
     /**
+     * Token doğrulama endpoint'i (Gateway tarafından çağrılır)
+     * GET /auth/validate
+     * @param token Authorization header
+     * @return Kullanıcı ID ve Rolü
+     */
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
+        try {
+            // Bearer prefix'ini temizle
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+            AuthResponse response = authenticationService.validateToken(token);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse("Geçersiz Token: " + e.getMessage()));
+        }
+    }
+
+    /**
      * Hata mesajı için basit bir wrapper sınıf
      */
     private record ErrorResponse(String message) {

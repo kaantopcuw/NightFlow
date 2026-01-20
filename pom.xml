@@ -11,7 +11,15 @@
     <modules>
         <module>config-server</module>
         <module>discovery-server</module>
+        <module>gateway-service</module>
         <module>auth-service</module>
+        <module>venue-service</module>
+        <module>event-catalog-service</module>
+        <module>ticket-service</module>
+        <module>shopping-cart-service</module>
+        <module>order-service</module>
+        <module>notification-service</module>
+        <module>checkin-service</module>
     </modules>
 
 </project>

@@ -37,6 +37,28 @@ public class AuthClient {
                 .when()
                 .post("/api/auth/register");
     }
+
+    /**
+     * Register a new user with specific role
+     */
+    public Response register(String username, String email, String password, String firstName, String lastName, String role) {
+        String body = """
+            {
+                "username": "%s",
+                "email": "%s",
+                "password": "%s",
+                "firstName": "%s",
+                "lastName": "%s",
+                "role": "%s"
+            }
+            """.formatted(username, email, password, firstName, lastName, role);
+        
+        return given()
+                .spec(spec)
+                .body(body)
+                .when()
+                .post("/api/auth/register");
+    }
     
     /**
      * Login and get JWT token

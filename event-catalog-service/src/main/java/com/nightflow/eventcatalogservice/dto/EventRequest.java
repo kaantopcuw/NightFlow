@@ -29,13 +29,12 @@ public class EventRequest {
     private String slug;
 
     @NotNull(message = "Mekan ID zorunludur")
-    private Long venueId;
+    private String venueId;
 
     private String venueName;
     private String venueCity;
 
-    @NotNull(message = "Organizatör ID zorunludur")
-    private Long organizerId;
+    private String organizerId;
 
     private String organizerName;
 
