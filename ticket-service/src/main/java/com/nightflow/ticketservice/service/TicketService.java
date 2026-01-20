@@ -223,6 +223,12 @@ public class TicketService {
         log.info("Ticket checked in: {}", ticketCode);
     }
 
+    public List<TicketResponse> getMyTickets(Long userId) {
+        return ticketRepository.findByUserId(userId).stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
     private TicketResponse toResponse(Ticket ticket) {
         return TicketResponse.builder()
                 .id(ticket.getId())

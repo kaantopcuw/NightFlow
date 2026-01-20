@@ -24,11 +24,11 @@ public class EventResponse implements Serializable {
     private String description;
     private String slug;
 
-    private Long venueId;
+    private String venueId;
     private String venueName;
     private String venueCity;
 
-    private Long organizerId;
+    private String organizerId;
     private String organizerName;
 
     private LocalDateTime eventDate;

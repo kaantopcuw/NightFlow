@@ -28,12 +28,12 @@ public class OrderService {
     private final OrderProducer orderProducer;
 
     @Transactional
-    public Order createOrder(OrderRequest request) {
-        log.info("Creating order for user: {}", request.userId());
+    public Order createOrder(OrderRequest request, String userId) {
+        log.info("Creating order for user: {}", userId);
 
         Order order = Order.builder()
                 .orderNumber(UUID.randomUUID().toString())
-                .userId(request.userId())
+                .userId(userId)
                 .totalAmount(request.totalAmount())
                 .build();
 
@@ -52,6 +52,10 @@ public class OrderService {
 
         order.setItems(items);
         return orderRepository.save(order);
+    }
+
+    public List<Order> getMyOrders(String userId) {
+        return orderRepository.findByUserId(userId);
     }
 
     @Transactional

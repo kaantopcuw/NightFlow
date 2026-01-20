@@ -20,5 +20,7 @@ public class RegisterRequest {
     @Size(min = 4, message = "Şifre en az 4 karakter olmalı")
     private String password;
 
+    private String role; // Optional, default USER
+
 
 }

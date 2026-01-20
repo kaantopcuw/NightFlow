@@ -38,7 +38,7 @@ spring:
             - id: ticket-service
               uri: lb://ticket-service
               predicates:
-                - Path=/api/tickets/**
+                - Path=/api/tickets/**, /api/ticket-categories/**
               filters:
                 - StripPrefix=1
             - id: shopping-cart-service

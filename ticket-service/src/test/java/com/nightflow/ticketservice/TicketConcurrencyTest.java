@@ -26,13 +26,24 @@ public class TicketConcurrencyTest {
     @Autowired
     private TicketService ticketService;
 
+    @org.springframework.test.context.bean.override.mockito.MockitoBean
+    private com.nightflow.ticketservice.client.EventServiceClient eventServiceClient;
+
     private static Long categoryId;
     private static final String EVENT_ID = "concurrency-test-event";
+    private static final String ORGANIZER_ID = "test-organizer";
 
     @Test
     @Order(1)
     public void testCreateCategory() {
         System.out.println("1. Kategori Oluştur (Stok: 2)");
+        
+        // Mock Event ownership check
+        com.nightflow.ticketservice.dto.EventResponse eventMock = new com.nightflow.ticketservice.dto.EventResponse();
+        eventMock.setId(EVENT_ID);
+        eventMock.setOrganizerId(ORGANIZER_ID);
+        org.mockito.Mockito.when(eventServiceClient.getEvent(EVENT_ID)).thenReturn(eventMock);
+        
         TicketCategoryRequest request = TicketCategoryRequest.builder()
                 .eventId(EVENT_ID)
                 .name("Concurrency Kategori")
@@ -41,7 +52,7 @@ public class TicketConcurrencyTest {
                 .totalQuantity(2)
                 .build();
 
-        TicketCategoryResponse response = ticketCategoryService.create(request);
+        TicketCategoryResponse response = ticketCategoryService.create(request, ORGANIZER_ID);
         assertNotNull(response.getId());
         categoryId = response.getId();
         System.out.println("Kategori ID: " + categoryId);

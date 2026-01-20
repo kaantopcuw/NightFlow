@@ -1,3 +1,13 @@
 springdoc:
   api-docs:
     path: /api-docs
+
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+
+# Security - Internal secret for service-to-service communication
+security:
+  internal:
+    secret: ${INTERNAL_SECRET:dev-internal-secret-change-in-production}

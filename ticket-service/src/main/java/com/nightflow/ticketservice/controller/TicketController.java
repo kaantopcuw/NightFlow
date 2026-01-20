@@ -59,6 +59,7 @@ public class TicketController {
             @RequestParam String sessionId,
             @RequestParam Long orderId,
             @RequestParam Long userId) {
+        // Internal service communication (should be secured via network or secret, but skipping for now)
         return ResponseEntity.ok(ticketService.confirmSale(sessionId, orderId, userId));
     }
 
@@ -66,5 +67,11 @@ public class TicketController {
     public ResponseEntity<Void> cancelReservation(@PathVariable String sessionId) {
         ticketService.cancelReservation(sessionId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/my-tickets")
+    public ResponseEntity<List<TicketResponse>> getMyTickets(org.springframework.security.core.Authentication authentication) {
+        Long userId = Long.parseLong((String) authentication.getPrincipal());
+        return ResponseEntity.ok(ticketService.getMyTickets(userId));
     }
 }

@@ -41,3 +41,15 @@ management:
 logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+  level:
+    com.nightflow.ticketservice.config: DEBUG
+
+feign:
+  client:
+    config:
+      default:
+        request-interceptors:
+          - com.nightflow.ticketservice.config.FeignClientConfig
+      event-catalog-client-direct:
+        request-interceptors:
+          - com.nightflow.ticketservice.config.FeignClientConfig

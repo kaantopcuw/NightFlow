@@ -23,7 +23,12 @@ public class EventController {
     private final EventService eventService;
 
     @PostMapping
-    public ResponseEntity<EventResponse> create(@Valid @RequestBody EventRequest request) {
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<EventResponse> create(
+            @Valid @RequestBody EventRequest request,
+            org.springframework.security.core.Authentication authentication) {
+        // Enforce organizerId from token
+        request.setOrganizerId((String) authentication.getPrincipal());
         EventResponse response = eventService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -64,22 +69,32 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
     public ResponseEntity<EventResponse> update(
             @PathVariable String id,
-            @Valid @RequestBody EventRequest request) {
-        return ResponseEntity.ok(eventService.update(id, request));
+            @Valid @RequestBody EventRequest request,
+            org.springframework.security.core.Authentication authentication) {
+        String currentUserId = (String) authentication.getPrincipal();
+        return ResponseEntity.ok(eventService.update(id, request, currentUserId));
     }
 
     @PatchMapping("/{id}/status")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
     public ResponseEntity<EventResponse> updateStatus(
             @PathVariable String id,
-            @RequestParam EventStatus status) {
-        return ResponseEntity.ok(eventService.updateStatus(id, status));
+            @RequestParam EventStatus status,
+            org.springframework.security.core.Authentication authentication) {
+        String currentUserId = (String) authentication.getPrincipal();
+        return ResponseEntity.ok(eventService.updateStatus(id, status, currentUserId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        eventService.delete(id);
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<Void> delete(
+            @PathVariable String id,
+            org.springframework.security.core.Authentication authentication) {
+        String currentUserId = (String) authentication.getPrincipal();
+        eventService.delete(id, currentUserId);
         return ResponseEntity.noContent().build();
     }
 }

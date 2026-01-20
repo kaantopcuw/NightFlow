@@ -19,8 +19,13 @@ public class TicketCategoryController {
     private final TicketCategoryService ticketCategoryService;
 
     @PostMapping
-    public ResponseEntity<TicketCategoryResponse> create(@Valid @RequestBody TicketCategoryRequest request) {
-        return new ResponseEntity<>(ticketCategoryService.create(request), HttpStatus.CREATED);
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<TicketCategoryResponse> create(
+            @Valid @RequestBody TicketCategoryRequest request,
+            org.springframework.security.core.Authentication authentication) {
+        // organizerId for verification
+        String organizerId = (String) authentication.getPrincipal(); // String userId
+        return new ResponseEntity<>(ticketCategoryService.create(request, organizerId), HttpStatus.CREATED);
     }
 
     @GetMapping("/event/{eventId}")
@@ -34,7 +39,12 @@ public class TicketCategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TicketCategoryResponse> update(@PathVariable Long id, @Valid @RequestBody TicketCategoryRequest request) {
-        return ResponseEntity.ok(ticketCategoryService.update(id, request));
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<TicketCategoryResponse> update(
+            @PathVariable Long id,
+            @Valid @RequestBody TicketCategoryRequest request,
+            org.springframework.security.core.Authentication authentication) {
+        String organizerId = (String) authentication.getPrincipal();
+        return ResponseEntity.ok(ticketCategoryService.update(id, request, organizerId));
     }
 }

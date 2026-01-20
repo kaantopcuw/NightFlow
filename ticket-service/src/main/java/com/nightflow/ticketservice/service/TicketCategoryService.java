@@ -19,7 +19,15 @@ public class TicketCategoryService {
 
     private final TicketCategoryRepository ticketCategoryRepository;
 
-    public TicketCategoryResponse create(TicketCategoryRequest request) {
+    private final com.nightflow.ticketservice.client.EventServiceClient eventServiceClient;
+
+    public TicketCategoryResponse create(TicketCategoryRequest request, String organizerId) {
+        // Verify event ownership
+        com.nightflow.ticketservice.dto.EventResponse event = eventServiceClient.getEvent(request.getEventId());
+        if (!event.getOrganizerId().equals(organizerId)) {
+            throw new RuntimeException("Bu etkinlik için bilet oluşturma yetkiniz yok.");
+        }
+
         TicketCategory category = TicketCategory.builder()
                 .eventId(request.getEventId())
                 .name(request.getName())
@@ -46,9 +54,15 @@ public class TicketCategoryService {
     }
 
     @Transactional
-    public TicketCategoryResponse update(Long id, TicketCategoryRequest request) {
+    public TicketCategoryResponse update(Long id, TicketCategoryRequest request, String organizerId) {
         TicketCategory category = ticketCategoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TicketCategory", "id", id));
+
+        // Verify event ownership (Category belongs to event, user must own event)
+        com.nightflow.ticketservice.dto.EventResponse event = eventServiceClient.getEvent(category.getEventId());
+        if (!event.getOrganizerId().equals(organizerId)) {
+            throw new RuntimeException("Bu bilet kategorisini düzenleme yetkiniz yok.");
+        }
 
         category.setName(request.getName());
         category.setDescription(request.getDescription());

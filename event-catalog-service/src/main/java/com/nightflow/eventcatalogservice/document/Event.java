@@ -31,12 +31,12 @@ public class Event {
     private String slug;
 
     // Venue referansı (Venue Service'den)
-    private Long venueId;
+    private String venueId;
     private String venueName;       // Denormalize
     private String venueCity;       // Denormalize
 
     // Organizatör referansı
-    private Long organizerId;
+    private String organizerId;
     private String organizerName;   // Denormalize
 
     private LocalDateTime eventDate;

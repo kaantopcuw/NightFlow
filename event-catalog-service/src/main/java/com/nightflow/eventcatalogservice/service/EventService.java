@@ -103,9 +103,14 @@ public class EventService {
     }
 
     @CacheEvict(value = {"events", "featured-events", "upcoming-events"}, allEntries = true)
-    public EventResponse update(String id, EventRequest request) {
+    public EventResponse update(String id, EventRequest request, String currentUserId) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Etkinlik", id));
+
+        // Ownership check
+        if (!event.getOrganizerId().equals(currentUserId)) {
+            throw new RuntimeException("Bu etkinliği düzenleme yetkiniz yok.");
+        }
 
         if (!event.getSlug().equals(request.getSlug()) && eventRepository.existsBySlug(request.getSlug())) {
             throw new ResourceAlreadyExistsException("Bu slug zaten kullanılıyor: " + request.getSlug());
@@ -117,8 +122,9 @@ public class EventService {
         event.setVenueId(request.getVenueId());
         event.setVenueName(request.getVenueName());
         event.setVenueCity(request.getVenueCity());
-        event.setOrganizerId(request.getOrganizerId());
-        event.setOrganizerName(request.getOrganizerName());
+        // Organizer cannot change the organizerId
+        // event.setOrganizerId(request.getOrganizerId()); 
+        // event.setOrganizerName(request.getOrganizerName());
         event.setEventDate(request.getEventDate());
         event.setDoorsOpenAt(request.getDoorsOpenAt());
         event.setCategory(request.getCategory());
@@ -135,9 +141,14 @@ public class EventService {
     }
 
     @CacheEvict(value = {"events", "featured-events", "upcoming-events"}, allEntries = true)
-    public EventResponse updateStatus(String id, EventStatus status) {
+    public EventResponse updateStatus(String id, EventStatus status, String currentUserId) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Etkinlik", id));
+
+        // Ownership check
+        if (!event.getOrganizerId().equals(currentUserId)) {
+            throw new RuntimeException("Bu etkinliği düzenleme yetkiniz yok.");
+        }
 
         event.setStatus(status);
         event.setUpdatedAt(LocalDateTime.now());
@@ -147,10 +158,15 @@ public class EventService {
     }
 
     @CacheEvict(value = {"events", "featured-events", "upcoming-events"}, allEntries = true)
-    public void delete(String id) {
-        if (!eventRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Etkinlik", id);
+    public void delete(String id, String currentUserId) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Etkinlik", id));
+
+        // Ownership check
+        if (!event.getOrganizerId().equals(currentUserId)) {
+            throw new RuntimeException("Bu etkinliği silme yetkiniz yok.");
         }
+        
         eventRepository.deleteById(id);
     }
 
