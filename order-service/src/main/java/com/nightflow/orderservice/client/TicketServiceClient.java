@@ -15,6 +15,6 @@ public interface TicketServiceClient {
 
     @PostMapping("/confirm-sale")
     void confirmSale(@RequestParam String sessionId,
-                     @RequestParam Long categoryId,
+                     @RequestParam Long orderId,
                      @RequestParam Long userId);
 }

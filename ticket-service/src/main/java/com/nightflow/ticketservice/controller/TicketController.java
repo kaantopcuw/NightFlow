@@ -8,6 +8,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,14 +34,18 @@ public class TicketController {
 
     /**
      * CheckInService için: Bir event'in tüm biletlerini döndür
+     * INTERNAL ONLY - Sadece SYSTEM rolü erişebilir
      */
     @GetMapping("/event/{eventId}/all")
-    public ResponseEntity<List<TicketResponse>> getAllTicketsByEvent(@PathVariable String eventId) {
+    public ResponseEntity<List<TicketResponse>> getAllTicketsByEvent(
+            @PathVariable String eventId, 
+            Authentication authentication) {
+        requireSystemRole(authentication);
         return ResponseEntity.ok(ticketService.getAllTicketsByEvent(eventId));
     }
 
     /**
-     * CheckInService için: Bilet koduna göre bilet bul
+     * Bilet koduna göre bilet bul - Public endpoint (kendi biletini görebilir)
      */
     @GetMapping("/{ticketCode}")
     public ResponseEntity<TicketResponse> getTicketByCode(@PathVariable String ticketCode) {
@@ -47,19 +54,28 @@ public class TicketController {
 
     /**
      * CheckInService için: Bileti check-in yap (USED olarak işaretle)
+     * INTERNAL ONLY - Sadece SYSTEM rolü erişebilir
      */
     @PatchMapping("/{ticketCode}/checkin")
-    public ResponseEntity<Void> markAsCheckedIn(@PathVariable String ticketCode) {
+    public ResponseEntity<Void> markAsCheckedIn(
+            @PathVariable String ticketCode,
+            Authentication authentication) {
+        requireSystemRole(authentication);
         ticketService.markAsCheckedIn(ticketCode);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * OrderService için: Satışı onayla ve biletleri oluştur
+     * INTERNAL ONLY - Sadece SYSTEM rolü erişebilir
+     */
     @PostMapping("/confirm-sale")
     public ResponseEntity<List<TicketResponse>> confirmSale(
             @RequestParam String sessionId,
             @RequestParam Long orderId,
-            @RequestParam Long userId) {
-        // Internal service communication (should be secured via network or secret, but skipping for now)
+            @RequestParam Long userId,
+            Authentication authentication) {
+        requireSystemRole(authentication);
         return ResponseEntity.ok(ticketService.confirmSale(sessionId, orderId, userId));
     }
 
@@ -70,8 +86,25 @@ public class TicketController {
     }
 
     @GetMapping("/my-tickets")
-    public ResponseEntity<List<TicketResponse>> getMyTickets(org.springframework.security.core.Authentication authentication) {
+    public ResponseEntity<List<TicketResponse>> getMyTickets(Authentication authentication) {
         Long userId = Long.parseLong((String) authentication.getPrincipal());
         return ResponseEntity.ok(ticketService.getMyTickets(userId));
+    }
+    
+    /**
+     * SYSTEM rolü kontrolü - Internal endpoint'ler için
+     */
+    private void requireSystemRole(Authentication authentication) {
+        if (authentication == null) {
+            throw new AccessDeniedException("Authentication required");
+        }
+        
+        boolean isSystem = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_SYSTEM") || role.equals("SYSTEM"));
+                
+        if (!isSystem) {
+            throw new AccessDeniedException("This endpoint is for internal service use only");
+        }
     }
 }

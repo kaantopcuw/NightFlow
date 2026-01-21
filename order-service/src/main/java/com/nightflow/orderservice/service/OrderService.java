@@ -84,7 +84,7 @@ public class OrderService {
             try {
                 ticketServiceClient.confirmSale(
                         item.getReservationId(),
-                        item.getCategoryId(),
+                        order.getId(),
                         userIdLong
                 );
             } catch (Exception e) {
