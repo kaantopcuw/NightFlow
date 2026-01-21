@@ -55,8 +55,8 @@ NightFlow follows a distributed microservices architecture pattern with centrali
                                                │
                         ┌──────────────────────┼──────────────────────┐
                         │                      │                      │
-             ┌──────────▼──────────┐          │           ┌──────────▼──────────┐
-             │    API Gateway      │◄─────────┘           │   Message Broker    │
+             ┌──────────▼──────────┐           │          ┌──────────▼──────────┐
+             │    API Gateway      │◄──────────┘          │   Message Broker    │
              │      (8080)         │                      │   Apache Kafka      │
              └──────────┬──────────┘                      └─────────┬───────────┘
                         │                                           │
