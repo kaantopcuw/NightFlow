@@ -58,30 +58,24 @@ NightFlow follows a distributed microservices architecture pattern with centrali
              ┌──────────▼──────────┐          │           ┌──────────▼──────────┐
              │    API Gateway      │◄─────────┘           │   Message Broker    │
              │      (8080)         │                      │   Apache Kafka      │
-             └──────────┬──────────┘                      └──────────┬──────────┘
-                        │                                            │
-    ┌───────────────────┼───────────────────┬───────────────────────┤
-    │                   │                   │                       │
-┌───▼───┐  ┌───────────▼───────┐  ┌───────▼───────┐  ┌─────────────▼─────────────┐
-│ Auth  │  │  Event Catalog    │  │    Ticket     │  │      Order Service        │
-│(8090) │  │     (8092)        │  │    (8093)     │  │        (8095)             │
-│       │  │                   │  │               │  │                           │
-│ JWT   │  │ MongoDB + Redis   │  │  PostgreSQL   │  │  Saga + Kafka Producer    │
-└───┬───┘  └───────────────────┘  └───────┬───────┘  └─────────────┬─────────────┘
-    │                                     │                        │
-    │      ┌───────────┐    ┌─────────────▼───────┐    ┌──────────▼──────────┐
-    │      │   Venue   │    │   Shopping Cart     │    │  Notification       │
-    └──────►  (8091)   │    │      (8094)         │    │     (8096)          │
-           │           │    │                     │    │                     │
-           │PostgreSQL │    │  Redis + Feign      │    │ Kafka Consumer+Mail │
-           └───────────┘    └─────────────────────┘    └─────────────────────┘
-                                                              
-                            ┌─────────────────────┐
-                            │   Check-in Service  │
-                            │      (8097)         │
-                            │                     │
-                            │  Redis + QR Scan    │
-                            └─────────────────────┘
+             └──────────┬──────────┘                      └─────────┬───────────┘
+                        │                                           │
+    ┌───────────────────┼───────────────────┬───────────────────────┼───────────────────────┐
+    │                   │                   │                       │                       │
+┌───▼───┐  ┌───────────▼───────┐  ┌───────▼───────┐  ┌─────────────▼─────────────┐ ┌────────▼────────┐
+│ Auth  │  │  Event Catalog    │  │    Ticket     │  │      Order Service        │ │ Check-in Service│
+│(8090) │  │     (8092)        │  │    (8093)     │  │        (8095)             │ │    (8097)       │
+│       │  │                   │  │               │  │                           │ │                 │
+│ JWT   │  │ MongoDB + Redis   │  │  PostgreSQL   │  │  Saga + Kafka Producer    │ │ Redis + QR Scan │
+└───┬───┘  └───────────────────┘  └───────┬───────┘  └─────────────┬─────────────┘ └─────────────────┘
+    │                                     │                        │               
+    │      ┌───────────┐    ┌─────────────▼───────┐    ┌──────────▼──────────┐     
+    │      │   Venue   │    │   Shopping Cart     │    │  Notification       │    
+    └──────►  (8091)   │    │      (8094)         │    │     (8096)          │    
+           │           │    │                     │    │                     │    
+           │PostgreSQL │    │  Redis + Feign      │    │ Kafka Consumer+Mail │    
+           └───────────┘    └─────────────────────┘    └─────────────────────┘    
+                                                                             
 ```
 
 ### 📡 Data Flow
@@ -95,6 +89,8 @@ User → Gateway → Auth → Event Catalog → Ticket → Cart → Order → Ka
 ---
 
 ## 📦 Microservices
+
+Microservices architecture is used in this project. Each service has its own responsibility and communicates with other services using **REST API** and **Kafka**.
 
 <table>
 <thead>
@@ -135,34 +131,6 @@ User → Gateway → Auth → Event Catalog → Ticket → Cart → Order → Ka
 <td>Spring Security, JJWT 0.13.0, PostgreSQL</td>
 </tr>
 
-## 🔭 Observability
-
-NightFlow implements a complete **LGTM Stack** for monitoring:
-
-| Tool | Port | Description |
-|------|------|-------------|
-| **Grafana** | `3000` | Visualization Dashboard (User: `admin` / Pass: `password`) |
-| **Prometheus**| `9090` | Metrics Collection |
-| **Loki** | `3100` | Centralized Logging |
-| **Tempo** | `3200` | Distributed Tracing (OTLP) |
-
-### 🕵️‍♂️ Distributed Tracing with Tempo
-
-NightFlow uses **Grafana Tempo** to trace requests as they travel through the microservices. This allows you to visualize the full call chain, identify bottlenecks, and debug errors effectively.
-
-#### How to functionality:
-1.  **Make a Request**: Any request sent through the API Gateway (port 8080) will have a Trace ID generated automatically.
-2.  **Get the Trace ID**: The Gateway returns a custom header `X-Trace-Id` in the response (e.g., `feb3b878bb36fc6fc05633557a717936`).
-3.  **Visualize in Grafana**:
-    *   Go to **Grafana** (http://localhost:3000).
-    *   Navigate to **Explore** from the sidebar.
-    *   Select **Tempo** as the data source.
-    *   Paste the `X-Trace-Id` into the "Trace ID" field and run the query.
-    *   You will see a Gantt chart showing the request's journey across all services (Gateway -> Auth -> Other Services).
-
-👉 **[View Observability Guide](docs/observability.md)** for detailed usage instructions.
-<table>
-<tbody>
 <tr>
 <td><strong>🏟️ Venue Service</strong></td>
 <td>Venue management, seat layouts, and organizer profiles</td>
@@ -214,6 +182,33 @@ NightFlow uses **Grafana Tempo** to trace requests as they travel through the mi
 
 </tbody>
 </table>
+
+## 🔭 Observability
+
+NightFlow implements a complete **LGTM Stack** for monitoring:
+
+| Tool | Port | Description |
+|------|------|-------------|
+| **Grafana** | `3000` | Visualization Dashboard (User: `admin` / Pass: `password`) |
+| **Prometheus**| `9090` | Metrics Collection |
+| **Loki** | `3100` | Centralized Logging |
+| **Tempo** | `3200` | Distributed Tracing (OTLP) |
+
+### 🕵️‍♂️ Distributed Tracing with Tempo
+
+NightFlow uses **Grafana Tempo** to trace requests as they travel through the microservices. This allows you to visualize the full call chain, identify bottlenecks, and debug errors effectively.
+
+#### How to functionality:
+1.  **Make a Request**: Any request sent through the API Gateway (port 8080) will have a Trace ID generated automatically.
+2.  **Get the Trace ID**: The Gateway returns a custom header `X-Trace-Id` in the response (e.g., `feb3b878bb36fc6fc05633557a717936`).
+3.  **Visualize in Grafana**:
+    *   Go to **Grafana** (http://localhost:3000).
+    *   Navigate to **Explore** from the sidebar.
+    *   Select **Tempo** as the data source.
+    *   Paste the `X-Trace-Id` into the "Trace ID" field and run the query.
+    *   You will see a Gantt chart showing the request's journey across all services (Gateway -> Auth -> Other Services).
+
+👉 **[View Observability Guide](docs/observability.md)** for detailed usage instructions.
 
 ---
 
