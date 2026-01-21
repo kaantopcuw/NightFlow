@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/nightflow-banner.png" alt="NightFlow Banner" width="600">
-</p>
-
 <h1 align="center">🎫 NightFlow</h1>
 
 <p align="center">
@@ -150,8 +146,23 @@ NightFlow implements a complete **LGTM Stack** for monitoring:
 | **Loki** | `3100` | Centralized Logging |
 | **Tempo** | `3200` | Distributed Tracing (OTLP) |
 
-👉 **[View Observability Guide](docs/observability.md)** for detailed usage instructions.
+### 🕵️‍♂️ Distributed Tracing with Tempo
 
+NightFlow uses **Grafana Tempo** to trace requests as they travel through the microservices. This allows you to visualize the full call chain, identify bottlenecks, and debug errors effectively.
+
+#### How to functionality:
+1.  **Make a Request**: Any request sent through the API Gateway (port 8080) will have a Trace ID generated automatically.
+2.  **Get the Trace ID**: The Gateway returns a custom header `X-Trace-Id` in the response (e.g., `feb3b878bb36fc6fc05633557a717936`).
+3.  **Visualize in Grafana**:
+    *   Go to **Grafana** (http://localhost:3000).
+    *   Navigate to **Explore** from the sidebar.
+    *   Select **Tempo** as the data source.
+    *   Paste the `X-Trace-Id` into the "Trace ID" field and run the query.
+    *   You will see a Gantt chart showing the request's journey across all services (Gateway -> Auth -> Other Services).
+
+👉 **[View Observability Guide](docs/observability.md)** for detailed usage instructions.
+<table>
+<tbody>
 <tr>
 <td><strong>🏟️ Venue Service</strong></td>
 <td>Venue management, seat layouts, and organizer profiles</td>
