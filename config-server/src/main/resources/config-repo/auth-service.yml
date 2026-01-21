@@ -32,8 +32,8 @@ management:
         include: "health,info,prometheus,metrics"
 
 jwt:
-  secret: 404E835266556A586K3272357538782T413F4438482B4B6250645367566B5970
-  expiration: 86400000 # Token geçerlilik süresi (Milisaniye cinsinden). Örnek: 24 saat
+  secret: ${JWT_SECRET:404E835266556A586K3272357538782T413F4438482B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:604800000} # 7 gün (milisaniye)
   tracing:
     sampling:
       probability: 1.0

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
+@lombok.extern.slf4j.Slf4j
 public class HeaderAuthFilter extends OncePerRequestFilter {
 
     @Value("${security.internal.secret:dev-internal-secret-change-in-production}")
@@ -29,16 +30,20 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Verify internal secret to prevent gateway bypass attacks
+        String traceId = request.getHeader("X-Trace-Id");
         String internalSecret = request.getHeader("X-Internal-Secret");
+        String userId = request.getHeader("X-User-Id");
+        String userRole = request.getHeader("X-User-Role");
+        
+        log.info("[{}] {} {} - userId={}", traceId, request.getMethod(), path, userId);
+
+        // Verify internal secret to prevent gateway bypass attacks
         if (!expectedSecret.equals(internalSecret)) {
+            log.error("Auth Failed: Secret mismatch! Received: {}, Expected: {}", internalSecret, expectedSecret);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write("Direct service access not allowed");
             return;
         }
-
-        String userId = request.getHeader("X-User-Id");
-        String userRole = request.getHeader("X-User-Role");
 
         if (userId != null && userRole != null) {
             // Request from gateway with user context
@@ -48,6 +53,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userRole))
             );
             SecurityContextHolder.getContext().setAuthentication(auth);
+            log.info("Auth Success: Authenticated as user {}", userId);
         } else {
             // Service-to-service call - create SYSTEM authentication
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
@@ -56,6 +62,7 @@ public class HeaderAuthFilter extends OncePerRequestFilter {
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_SYSTEM"))
             );
             SecurityContextHolder.getContext().setAuthentication(auth);
+            log.info("Auth Success: Authenticated as SYSTEM");
         }
 
         filterChain.doFilter(request, response);

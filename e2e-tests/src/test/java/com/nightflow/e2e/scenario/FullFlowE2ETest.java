@@ -194,9 +194,6 @@ public class FullFlowE2ETest extends BaseE2ETest {
         orderId = response.jsonPath().getLong("id");
         orderNumber = response.jsonPath().getString("orderNumber");
         System.out.println("✅ Order created: " + orderNumber);
-        
-        // Clear cart
-        cartClient.clearCart(userId);
     }
     
     @Test
@@ -215,7 +212,7 @@ public class FullFlowE2ETest extends BaseE2ETest {
         ticketsResp.then()
                 .statusCode(200)
                 .body("size()", greaterThan(0))
-                .body("[0].userId", equalTo(Long.parseLong(userId))) // Ticket uses Long userId
+                .body("[0].userId", equalTo(Integer.parseInt(userId))) // JSON treats numbers as Integer
                 .body("[0].status", equalTo("SOLD"));
                 
         System.out.println("✅ My Tickets verified");
