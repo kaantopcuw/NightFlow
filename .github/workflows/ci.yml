@@ -1,0 +1,194 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A new push to the same branch makes the previous run pointless.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  JAVA_VERSION: "25"
+  JAVA_DISTRIBUTION: temurin
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Compile and package every service. Each service is an independent Maven
+  # project, so the matrix gives 11 parallel jobs and a failure points straight
+  # at the service that broke.
+  # ---------------------------------------------------------------------------
+  build:
+    name: build / ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - config-server
+          - discovery-server
+          - gateway-service
+          - auth-service
+          - venue-service
+          - event-catalog-service
+          - ticket-service
+          - shopping-cart-service
+          - order-service
+          - notification-service
+          - checkin-service
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Package
+        working-directory: ${{ matrix.service }}
+        run: mvn -B -ntp -DskipTests package
+
+  # ---------------------------------------------------------------------------
+  # Run the test suites.
+  #
+  # The @SpringBootTest suites boot the real application context. Without the
+  # config-server the services fall back to their own application.yml (the
+  # import is `optional:`), which leaves the datastore properties undefined, so
+  # the job supplies them as environment variables instead - Spring Boot's
+  # relaxed binding maps SPRING_DATASOURCE_URL to spring.datasource.url.
+  #
+  # Only PostgreSQL is a hard requirement: the MongoDB, Redis and Kafka clients
+  # connect lazily and their context tests pass without a live server.
+  # ---------------------------------------------------------------------------
+  test:
+    name: test / ${{ matrix.service }}
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - config-server
+          - discovery-server
+          - gateway-service
+          - auth-service
+          - venue-service
+          - event-catalog-service
+          - ticket-service
+          - shopping-cart-service
+          - order-service
+          - notification-service
+          - checkin-service
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: nightflow_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/nightflow_test
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # Test-only values; the real ones come from the deployment's Secret.
+      JWT_SECRET: dev-only-jwt-secret-change-in-production-min-64-chars-long-000000
+      JWT_EXPIRATION: "604800000"
+      # There is no Eureka server in this job, and none is needed.
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: "false"
+      EUREKA_CLIENT_FETCH_REGISTRY: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: maven
+
+      - name: Test
+        working-directory: ${{ matrix.service }}
+        run: mvn -B -ntp test
+
+      - name: Publish test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-${{ matrix.service }}
+          path: ${{ matrix.service }}/target/surefire-reports/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # ---------------------------------------------------------------------------
+  # The deployment artifacts are code too: a broken Compose file or a Kustomize
+  # overlay that no longer builds should fail the pull request, not the deploy.
+  # ---------------------------------------------------------------------------
+  manifests:
+    name: manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+
+      # The runner image ships kubectl, but pinning our own removes the
+      # dependency on what happens to be preinstalled.
+      - name: Install kubectl
+        run: |
+          version=$(curl -sSL https://dl.k8s.io/release/stable.txt)
+          curl -sSLo kubectl "https://dl.k8s.io/release/${version}/bin/linux/amd64/kubectl"
+          sudo install -m 0755 kubectl /usr/local/bin/kubectl
+          kubectl version --client
+
+      - name: Install kubeconform
+        run: |
+          curl -sSL https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz \
+            | tar -xz kubeconform
+          sudo install -m 0755 kubeconform /usr/local/bin/kubeconform
+
+      # Rendering is not enough: the rendered objects are also checked against
+      # the real Kubernetes API schemas, so a typo in a field name fails the PR
+      # instead of the deployment.
+      - name: Build and validate Kustomize overlays
+        run: |
+          for overlay in k8s/overlays/*; do
+            echo "::group::$overlay"
+            kubectl kustomize "$overlay" > /tmp/rendered.yaml
+            kubeconform -strict -summary -kubernetes-version 1.31.0 /tmp/rendered.yaml
+            echo "::endgroup::"
+          done
+
+      - name: Set up OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_wrapper: false
+
+      - name: Check OpenTofu formatting
+        run: tofu fmt -check -recursive deploy/
+
+      - name: Validate OpenTofu configuration
+        working-directory: deploy/aws
+        run: |
+          tofu init -backend=false -input=false
+          tofu validate
