@@ -30,10 +30,16 @@ public class TracingConfig {
     @Value("${spring.application.name:gateway-service}")
     private String serviceName;
 
+    // The OTLP gRPC endpoint used to be hardcoded to localhost:4317, which no
+    // container can reach. The default keeps the previous behaviour for a
+    // developer running the services directly on the host.
+    @Value("${nightflow.tracing.otlp-grpc-endpoint:http://localhost:4317}")
+    private String otlpGrpcEndpoint;
+
     @Bean
     @ConditionalOnMissingBean
     public OpenTelemetry openTelemetry() {
-        String grpcEndpoint = "http://localhost:4317";
+        String grpcEndpoint = otlpGrpcEndpoint;
         log.info("Configuring OpenTelemetry with gRPC endpoint: {} and service: {}", grpcEndpoint, serviceName);
         
         // Resource with service name

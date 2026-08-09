@@ -39,16 +39,22 @@ public class TracingConfig {
     @Value("${spring.application.name:checkin-service}")
     private String serviceName;
 
+    // The OTLP gRPC endpoint used to be hardcoded to localhost:4317, which no
+    // container can reach. The default keeps the previous behaviour for a
+    // developer running the services directly on the host.
+    @Value("${nightflow.tracing.otlp-grpc-endpoint:http://localhost:4317}")
+    private String otlpGrpcEndpoint;
+
     @Bean
     @Primary
     public OpenTelemetry openTelemetry() {
-        log.info("FORCED TRACING CONFIG (FULL MANUAL) for service: {}", serviceName);
+        log.info("Tracing: exporting spans for {} to {} over OTLP/gRPC", serviceName, otlpGrpcEndpoint);
         Resource resource = Resource.getDefault()
                 .merge(Resource.create(Attributes.of(
                         AttributeKey.stringKey("service.name"), serviceName)));
 
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
-                .setEndpoint("http://localhost:4317")
+                .setEndpoint(otlpGrpcEndpoint)
                 .setTimeout(Duration.ofSeconds(10))
                 .build();
 
