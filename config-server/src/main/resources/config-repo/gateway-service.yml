@@ -119,9 +119,9 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/ # Service Discovery adresi
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/} # Service Discovery adresi
   instance:
-    prefer-ip-address: true # IP adresi kullan
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:true} # IP adresi kullan
     instance-id: ${spring.application.name}:${server.port}
 
 management:
@@ -132,13 +132,6 @@ management:
   endpoint:
     gateway:
       enabled: true
-  tracing:
-    enabled: true
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: "http://localhost:4318/v1/traces"
 
 logging:
   pattern:

@@ -3,7 +3,7 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
   client:
     register-with-eureka: false # Kendisi sunucu olduğu için kendine kayıt olmasın
     fetch-registry: false       # Registry bilgisini çekmesine gerek yok

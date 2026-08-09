@@ -4,8 +4,10 @@ springdoc:
 
 eureka:
   instance:
-    prefer-ip-address: false
-    hostname: localhost
+    # In containers (Docker/Kubernetes) the pod/container IP is routable while the
+    # hostname is not, so deployments set EUREKA_PREFER_IP_ADDRESS=true.
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:false}
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
 
 # Security - Internal secret for service-to-service communication
 security:

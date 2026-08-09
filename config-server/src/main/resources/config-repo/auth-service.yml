@@ -5,9 +5,9 @@ spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/nightflow_auth
-    username: postgres
-    password: password
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB_AUTH:nightflow_auth}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -20,9 +20,9 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:true}
     instance-id: ${spring.application.name}:${server.port}
 
 management:
@@ -34,12 +34,6 @@ management:
 jwt:
   secret: ${JWT_SECRET:dev-only-jwt-secret-change-in-production-min-64-chars-long-000000}
   expiration: ${JWT_EXPIRATION:604800000} # 7 gün (milisaniye)
-  tracing:
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: "http://localhost:4318/v1/traces"
 
 logging:
   pattern:

@@ -5,7 +5,7 @@ spring:
   application:
     name: notification-service
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
       group-id: notification-service
       auto-offset-reset: earliest
@@ -16,8 +16,8 @@ spring:
         spring.json.use.type.headers: false
         spring.json.value.default.type: com.nightflow.notificationservice.event.OrderCreatedEvent
   mail:
-    host: smtp.gmail.com
-    port: 587
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
     username: ${MAIL_USERNAME:test@example.com}
     password: ${MAIL_PASSWORD:password}
     properties:
@@ -27,10 +27,10 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
   instance:
-    hostname: localhost
-    prefer-ip-address: false
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:false}
 
 logging:
   level:
@@ -44,9 +44,10 @@ management:
     web:
       exposure:
         include: "health,info,prometheus,metrics"
-  tracing:
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: "http://localhost:4318/v1/traces"
+  health:
+    mail:
+      # Off by default. This service reacts to Kafka events and sends mail
+      # asynchronously, so SMTP reachability is not a readiness condition -
+      # with it on, /actuator/health reports DOWN (and Kubernetes would refuse
+      # to route to the pod) whenever the mail server rejects the credentials.
+      enabled: ${MAIL_HEALTH_ENABLED:false}

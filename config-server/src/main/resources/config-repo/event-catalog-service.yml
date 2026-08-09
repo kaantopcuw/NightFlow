@@ -1,12 +1,17 @@
 spring:
   application:
     name: event-catalog-service
+  # Spring Boot 4 moved the MongoDB *connection* properties from
+  # `spring.data.mongodb.*` to `spring.mongodb.*` (the old ones are deprecated
+  # at error level and silently ignored). With the old key the driver fell back
+  # to its localhost default, which happened to be correct when everything ran
+  # on the developer's machine and broke as soon as it ran in a container.
+  mongodb:
+    uri: ${MONGODB_URI:mongodb://localhost:27017/nightflow_events}
   data:
-    mongodb:
-      uri: mongodb://localhost:27017/nightflow_events
     redis:
-      host: localhost
-      port: 6379
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
   cache:
     type: redis
 
@@ -16,21 +21,15 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: ${EUREKA_PREFER_IP_ADDRESS:true}
 
 management:
   endpoints:
     web:
       exposure:
         include: "health,info,prometheus,metrics"
-  tracing:
-    sampling:
-      probability: 1.0
-  otlp:
-    tracing:
-      endpoint: "http://localhost:4318/v1/traces"
 
 logging:
   pattern:

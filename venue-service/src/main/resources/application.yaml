@@ -2,4 +2,6 @@ spring:
   application:
     name: venue-service
   config:
-    import: optional:configserver:http://localhost:8888
+    # CONFIG_SERVER_URL lets containers point at the config-server service name.
+    # 'optional:' keeps local/unit-test runs working when no config server is up.
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
