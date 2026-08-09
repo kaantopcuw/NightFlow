@@ -26,7 +26,7 @@ spring:
             - id: venue-service
               uri: lb://venue-service
               predicates:
-                - Path=/api/venue/**
+                - Path=/api/venues/**
               filters:
                 - StripPrefix=1
             - id: event-catalog-service
