@@ -1,0 +1,26 @@
+# Only the API gateway is exposed; every other service is reachable through it
+# (or through Eureka, cluster-internally). Assumes an ingress-nginx controller.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nightflow-gateway
+  labels:
+    app.kubernetes.io/name: nightflow-gateway
+    app.kubernetes.io/part-of: nightflow
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+spec:
+  ingressClassName: nginx
+  rules:
+    # Overridden per environment in the overlays.
+    - host: nightflow.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  name: http

@@ -1,0 +1,85 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Development environment: the application plus in-cluster backing services,
+# sized so the whole stack fits on a single-node cluster (kind, minikube, k3d).
+
+resources:
+  - ../../base
+  - ../../infra
+
+# The CI workflow pushes a `main` tag on every merge; a local cluster can point
+# these at locally built images instead (see ../../README.md).
+images:
+  - name: nightflow/config-server
+    newName: ghcr.io/kaantopcuw/nightflow/config-server
+    newTag: main
+  - name: nightflow/discovery-server
+    newName: ghcr.io/kaantopcuw/nightflow/discovery-server
+    newTag: main
+  - name: nightflow/gateway-service
+    newName: ghcr.io/kaantopcuw/nightflow/gateway-service
+    newTag: main
+  - name: nightflow/auth-service
+    newName: ghcr.io/kaantopcuw/nightflow/auth-service
+    newTag: main
+  - name: nightflow/venue-service
+    newName: ghcr.io/kaantopcuw/nightflow/venue-service
+    newTag: main
+  - name: nightflow/event-catalog-service
+    newName: ghcr.io/kaantopcuw/nightflow/event-catalog-service
+    newTag: main
+  - name: nightflow/ticket-service
+    newName: ghcr.io/kaantopcuw/nightflow/ticket-service
+    newTag: main
+  - name: nightflow/shopping-cart-service
+    newName: ghcr.io/kaantopcuw/nightflow/shopping-cart-service
+    newTag: main
+  - name: nightflow/order-service
+    newName: ghcr.io/kaantopcuw/nightflow/order-service
+    newTag: main
+  - name: nightflow/notification-service
+    newName: ghcr.io/kaantopcuw/nightflow/notification-service
+    newTag: main
+  - name: nightflow/checkin-service
+    newName: ghcr.io/kaantopcuw/nightflow/checkin-service
+    newTag: main
+
+# No configMapGenerator override: dev runs the base config as-is. The prod
+# overlay is the one that repoints the backing services and the OTLP endpoint.
+
+patches:
+  - target:
+      kind: Ingress
+      name: nightflow-gateway
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: nightflow.dev.local
+
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/component=platform
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 100m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 320Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 640Mi
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/component=business
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 100m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 320Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 640Mi

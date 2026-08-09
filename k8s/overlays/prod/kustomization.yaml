@@ -1,0 +1,140 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Production environment.
+#
+# The in-cluster infrastructure of the dev overlay is deliberately NOT included:
+# PostgreSQL, MongoDB, Redis, Kafka, Loki and Tempo are expected to be managed
+# services or to live in their own namespace. The ConfigMap below only carries
+# placeholder hostnames - point them at the real endpoints (or, better, render
+# them from the Terraform/OpenTofu outputs in deploy/aws) before applying.
+#
+# The Secret still comes from the base generator, which is fine for a demo and
+# wrong for a real cluster: replace it with External Secrets / Sealed Secrets.
+
+resources:
+  - ../../base
+
+images:
+  - name: nightflow/config-server
+    newName: ghcr.io/kaantopcuw/nightflow/config-server
+    newTag: 1.0.0
+  - name: nightflow/discovery-server
+    newName: ghcr.io/kaantopcuw/nightflow/discovery-server
+    newTag: 1.0.0
+  - name: nightflow/gateway-service
+    newName: ghcr.io/kaantopcuw/nightflow/gateway-service
+    newTag: 1.0.0
+  - name: nightflow/auth-service
+    newName: ghcr.io/kaantopcuw/nightflow/auth-service
+    newTag: 1.0.0
+  - name: nightflow/venue-service
+    newName: ghcr.io/kaantopcuw/nightflow/venue-service
+    newTag: 1.0.0
+  - name: nightflow/event-catalog-service
+    newName: ghcr.io/kaantopcuw/nightflow/event-catalog-service
+    newTag: 1.0.0
+  - name: nightflow/ticket-service
+    newName: ghcr.io/kaantopcuw/nightflow/ticket-service
+    newTag: 1.0.0
+  - name: nightflow/shopping-cart-service
+    newName: ghcr.io/kaantopcuw/nightflow/shopping-cart-service
+    newTag: 1.0.0
+  - name: nightflow/order-service
+    newName: ghcr.io/kaantopcuw/nightflow/order-service
+    newTag: 1.0.0
+  - name: nightflow/notification-service
+    newName: ghcr.io/kaantopcuw/nightflow/notification-service
+    newTag: 1.0.0
+  - name: nightflow/checkin-service
+    newName: ghcr.io/kaantopcuw/nightflow/checkin-service
+    newTag: 1.0.0
+
+configMapGenerator:
+  - name: nightflow-config
+    behavior: merge
+    literals:
+      # Placeholders - replace with the managed endpoints of the environment.
+      - POSTGRES_HOST=nightflow-prod.CHANGE-ME.rds.amazonaws.com
+      - POSTGRES_PORT=5432
+      - REDIS_HOST=nightflow-prod.CHANGE-ME.cache.amazonaws.com
+      - REDIS_PORT=6379
+      - MONGODB_URI=mongodb://nightflow-prod.CHANGE-ME.docdb.amazonaws.com:27017/nightflow_events
+      - KAFKA_BOOTSTRAP_SERVERS=b-1.nightflow-prod.CHANGE-ME.kafka.amazonaws.com:9092
+      - NIGHTFLOW_TRACING_OTLP_GRPC_ENDPOINT=http://tempo.observability.svc.cluster.local:4317
+      - LOKI_URL=http://loki.observability.svc.cluster.local:3100/loki/api/v1/push
+
+# Stateless services get more than one replica.
+#
+# config-server and discovery-server deliberately stay at one:
+#   - config-server is read once at client start-up, so a brief outage is
+#     survivable and a second replica buys little.
+#   - Eureka replicas are NOT interchangeable. Two pods behind one ClusterIP
+#     would each hold a partial registry and clients would get whichever one
+#     the Service picked. Real Eureka HA needs peer-aware instances with stable
+#     addresses (a StatefulSet plus a headless Service and eureka.client.
+#     serviceUrl listing every peer), which is out of scope here.
+replicas:
+  - name: gateway-service
+    count: 3
+  - name: auth-service
+    count: 2
+  - name: venue-service
+    count: 2
+  - name: event-catalog-service
+    count: 2
+  - name: ticket-service
+    count: 2
+  - name: shopping-cart-service
+    count: 2
+  - name: order-service
+    count: 2
+  - name: notification-service
+    count: 2
+  - name: checkin-service
+    count: 2
+
+patches:
+  - target:
+      kind: Ingress
+      name: nightflow-gateway
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: api.nightflow.example.com
+      - op: add
+        path: /metadata/annotations/cert-manager.io~1cluster-issuer
+        value: letsencrypt-prod
+      - op: add
+        path: /spec/tls
+        value:
+          - hosts:
+              - api.nightflow.example.com
+            secretName: nightflow-gateway-tls
+
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/component=platform
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 1Gi
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/component=business
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 1Gi

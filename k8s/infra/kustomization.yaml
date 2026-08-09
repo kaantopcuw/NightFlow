@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Development-grade backing services, deployed inside the cluster so that a
+# fresh cluster can run NightFlow end to end with no external dependencies.
+#
+# Single replica, no backups, no authentication beyond the shared Secret. Only
+# the dev overlay includes this; the prod overlay points the same environment
+# variables at managed services instead (RDS, MemoryDB/ElastiCache, DocumentDB
+# or Atlas, MSK).
+
+namespace: nightflow
+
+resources:
+  - postgres.yaml
+  - mongodb.yaml
+  - redis.yaml
+  - kafka.yaml
+  - loki.yaml
+  - tempo.yaml

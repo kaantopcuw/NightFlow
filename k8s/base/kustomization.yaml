@@ -1,0 +1,74 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Environment-independent definition of the NightFlow platform: 11 Deployments
+# with their Services, one Ingress for the gateway, and the shared
+# ConfigMap/Secret every pod consumes through envFrom.
+#
+# It is deliberately NOT deployable on its own - the overlays add the image
+# registry, the environment-specific endpoints and the sizing.
+
+namespace: nightflow
+
+resources:
+  - namespace.yaml
+  # platform
+  - config-server.yaml
+  - discovery-server.yaml
+  - gateway-service.yaml
+  # business services
+  - auth-service.yaml
+  - venue-service.yaml
+  - event-catalog-service.yaml
+  - ticket-service.yaml
+  - shopping-cart-service.yaml
+  - order-service.yaml
+  - notification-service.yaml
+  - checkin-service.yaml
+  # edge
+  - ingress.yaml
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/managed-by: kustomize
+
+# Non-secret runtime wiring. Generated (not a plain manifest) so that the name
+# carries a content hash: changing a value rolls the Deployments automatically
+# instead of leaving pods with stale configuration.
+configMapGenerator:
+  - name: nightflow-config
+    literals:
+      - CONFIG_SERVER_URL=http://config-server:8888
+      - EUREKA_SERVER_URL=http://discovery-server:8761/eureka/
+      # Pod IPs are routable inside the cluster; pod hostnames are not.
+      - EUREKA_PREFER_IP_ADDRESS=true
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MONGODB_URI=mongodb://mongodb:27017/nightflow_events
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      # Read by each service's own TracingConfig class, which exports over
+      # OTLP/gRPC. This is the only tracing knob the stack has.
+      - NIGHTFLOW_TRACING_OTLP_GRPC_ENDPOINT=http://tempo:4317
+      - LOKI_URL=http://loki:3100/loki/api/v1/push
+
+# ---------------------------------------------------------------------------
+# EXAMPLE VALUES ONLY - these are the same throwaway credentials the repository
+# already uses for local development. They exist so that `kubectl apply -k`
+# produces a stack that actually starts.
+#
+# For anything real, delete this generator and provide the Secret out of band:
+# External Secrets Operator, Sealed Secrets, SOPS, or the cloud provider's
+# secret store via CSI. Never commit a production credential to git.
+# ---------------------------------------------------------------------------
+secretGenerator:
+  - name: nightflow-secrets
+    literals:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - JWT_SECRET=dev-only-jwt-secret-change-in-production-min-64-chars-long-000000
+      - INTERNAL_SECRET=dev-internal-secret-change-in-production
+      - MAIL_USERNAME=test@example.com
+      - MAIL_PASSWORD=password

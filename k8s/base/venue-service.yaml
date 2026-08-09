@@ -1,0 +1,105 @@
+# Venue CRUD, PostgreSQL.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: venue-service
+  labels:
+    app.kubernetes.io/name: venue-service
+    app.kubernetes.io/part-of: nightflow
+    app.kubernetes.io/component: business
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: venue-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: venue-service
+        app.kubernetes.io/part-of: nightflow
+        app.kubernetes.io/component: business
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: venue-service
+          # Overwritten per environment by the `images:` transformer in the overlays.
+          image: nightflow/venue-service:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8091
+          envFrom:
+            - configMapRef:
+                name: nightflow-config
+            - secretRef:
+                name: nightflow-secrets
+          env:
+            - name: SERVER_PORT
+              value: "8091"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 384Mi
+            limits:
+              # No CPU limit on purpose: throttling a JVM during start-up causes
+              # probe flapping. Memory is limited, and MaxRAMPercentage in the
+              # image makes the heap follow this limit.
+              memory: 768Mi
+          # Slow JVM start-up is handled by the startupProbe, so liveness can
+          # stay aggressive without killing a still-booting pod.
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            # The root filesystem is read-only; the JVM still needs a scratch dir.
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: venue-service
+  labels:
+    app.kubernetes.io/name: venue-service
+    app.kubernetes.io/part-of: nightflow
+    app.kubernetes.io/component: business
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: venue-service
+  ports:
+    - name: http
+      port: 8091
+      targetPort: http
