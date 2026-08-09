@@ -107,7 +107,66 @@ public class TicketService {
 
         return responses;
     }
-    
+
+    /**
+     * Compensating action for {@link #confirmSale}: gives back the stock an
+     * order already had confirmed.
+     *
+     * order-service calls this when its payment saga fails part-way through -
+     * one item's confirm-sale succeeded, a later one did not - so the tickets
+     * that were already flipped to SOLD have to go back to free stock, exactly
+     * as {@link #cancelReservation} does for a reservation that was never
+     * confirmed.
+     *
+     * Only SOLD tickets are touched. A ticket that is already USED has been
+     * checked in at the door and must never be swept away by a rollback; that
+     * cannot happen inside the payment saga (the compensation runs seconds
+     * after the confirm) but the guard keeps this endpoint from becoming a way
+     * to delete live tickets.
+     *
+     * @return how many tickets were released
+     */
+    @Transactional
+    public int releaseSale(Long orderId) {
+        List<Ticket> ticketsOfOrder = ticketRepository.findByOrderId(orderId);
+
+        List<Ticket> soldTickets = ticketsOfOrder.stream()
+                .filter(ticket -> ticket.getStatus() == TicketStatus.SOLD)
+                .toList();
+
+        if (soldTickets.size() != ticketsOfOrder.size()) {
+            log.warn("Order {}: {} of {} tickets are not SOLD and were left untouched by the rollback",
+                    orderId, ticketsOfOrder.size() - soldTickets.size(), ticketsOfOrder.size());
+        }
+
+        if (soldTickets.isEmpty()) {
+            return 0;
+        }
+
+        soldTickets.stream()
+                .collect(Collectors.groupingBy(Ticket::getCategory))
+                .forEach((category, tickets) -> {
+                    TicketCategory lockedCategory = ticketCategoryRepository.findByIdWithLock(category.getId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Category", "id", category.getId()));
+
+                    int quantity = tickets.size();
+                    if (lockedCategory.getSoldQuantity() < quantity) {
+                        // Clamping keeps the counter sane, but it means sold_quantity
+                        // was already out of step with the ticket rows - say so.
+                        log.warn("Category {}: sold stock inconsistency, releasing {} of {} sold",
+                                lockedCategory.getId(), quantity, lockedCategory.getSoldQuantity());
+                    }
+                    lockedCategory.setSoldQuantity(Math.max(0, lockedCategory.getSoldQuantity() - quantity));
+                    lockedCategory.setUpdatedAt(LocalDateTime.now());
+                    ticketCategoryRepository.save(lockedCategory);
+                });
+
+        ticketRepository.deleteAll(soldTickets);
+        log.warn("Saga compensation: released {} sold ticket(s) for order {}", soldTickets.size(), orderId);
+
+        return soldTickets.size();
+    }
+
     /**
      * Süresi Dolmuş Rezervasyonları Temizle (Scheduled Job)
      * Her dakika çalışır

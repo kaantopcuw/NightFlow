@@ -37,6 +37,20 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    /**
+     * Reference of the (simulated) payment capture. Set when payOrder takes the
+     * money, kept on FAILED orders as well so the refund has a reference to
+     * quote.
+     */
+    private String paymentReference;
+
+    /**
+     * Why a FAILED / COMPENSATION_FAILED order ended up there, and which
+     * compensating steps did or did not work. Null on every other status.
+     */
+    @Column(length = 1024)
+    private String failureReason;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

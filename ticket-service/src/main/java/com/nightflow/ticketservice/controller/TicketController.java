@@ -79,6 +79,19 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.confirmSale(sessionId, orderId, userId));
     }
 
+    /**
+     * For OrderService: undo a confirmed sale (saga compensation).
+     * Compensating action for /confirm-sale - see TicketService#releaseSale.
+     * INTERNAL ONLY - requires the SYSTEM role.
+     */
+    @PostMapping("/release-sale")
+    public ResponseEntity<Integer> releaseSale(
+            @RequestParam Long orderId,
+            Authentication authentication) {
+        requireSystemRole(authentication);
+        return ResponseEntity.ok(ticketService.releaseSale(orderId));
+    }
+
     @DeleteMapping("/reserve/{sessionId}")
     public ResponseEntity<Void> cancelReservation(@PathVariable String sessionId) {
         ticketService.cancelReservation(sessionId);
