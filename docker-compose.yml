@@ -1,0 +1,420 @@
+# =============================================================================
+# NightFlow — full local stack (infrastructure + all 11 microservices).
+#
+#   cp .env.example .env
+#   docker compose up -d --build          # everything
+#   docker compose --profile observability up -d --build   # + Grafana/Prometheus
+#   docker compose down -v                # stop and drop the volumes
+#
+# Start-up order is enforced with health checks rather than sleeps:
+#   infrastructure -> config-server -> discovery-server -> gateway + services
+# The application containers inherit their health check from the image
+# (HEALTHCHECK on /actuator/health), so `service_healthy` really means "the
+# Spring context is up", not just "the process started".
+# =============================================================================
+
+name: nightflow
+
+# ----------------------------------------------------------------- fragments
+x-app-env: &app-env
+  CONFIG_SERVER_URL: http://config-server:8888
+  EUREKA_SERVER_URL: http://discovery-server:8761/eureka/
+  # Container/pod IPs are routable inside the compose network; hostnames of
+  # other containers are not resolvable from outside it.
+  EUREKA_PREFER_IP_ADDRESS: "true"
+  # Each service builds its own OpenTelemetry SDK in a TracingConfig class and
+  # exports over OTLP/gRPC to this endpoint. This is the only tracing knob the
+  # stack has; there is no Spring Boot tracing auto-configuration on the
+  # classpath, so `management.tracing.*` would do nothing.
+  NIGHTFLOW_TRACING_OTLP_GRPC_ENDPOINT: http://tempo:4317
+  LOKI_URL: http://loki:3100/loki/api/v1/push
+  # Development placeholders. Override them in .env (see .env.example);
+  # never deploy anything outside your laptop with these values.
+  INTERNAL_SECRET: ${INTERNAL_SECRET:-dev-internal-secret-change-in-production}
+  JWT_SECRET: ${JWT_SECRET:-dev-only-jwt-secret-change-in-production-min-64-chars-long-000000}
+
+x-app-defaults: &app-defaults
+  restart: on-failure
+  networks: [nightflow]
+  # The image sets -XX:MaxRAMPercentage, which only means something when the
+  # container actually has a memory limit. 512m holds a Spring Boot service
+  # comfortably; raise it in .env if you give the whole stack more room.
+  mem_limit: ${SERVICE_MEM_LIMIT:-512m}
+
+x-core-deps: &core-deps
+  config-server:
+    condition: service_healthy
+  discovery-server:
+    condition: service_healthy
+
+services:
+  # ===========================================================================
+  # Infrastructure
+  # ===========================================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: nightflow-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_DB: nightflow_auth
+    ports:
+      - "${POSTGRES_PUBLISHED_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Runs once, on an empty data directory: creates the remaining databases.
+      - ./docker/postgres/init-databases.sql:/docker-entrypoint-initdb.d/10-init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d nightflow_auth"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [nightflow]
+
+  mongodb:
+    image: mongo:8.0
+    container_name: nightflow-mongodb
+    ports:
+      - "${MONGODB_PUBLISHED_PORT:-27017}:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand({ping:1}).ok' | grep -q 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [nightflow]
+
+  redis:
+    image: redis:7-alpine
+    container_name: nightflow-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PUBLISHED_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks: [nightflow]
+
+  # Kafka in KRaft mode - no ZooKeeper. Two listeners: `kafka:29092` for
+  # clients inside the compose network, `localhost:9092` for clients on the
+  # host (advertised addresses must be reachable by the client, not the broker).
+  kafka:
+    image: confluentinc/cp-kafka:7.7.7
+    container_name: nightflow-kafka
+    ports:
+      - "${KAFKA_PUBLISHED_PORT:-9092}:9092"
+    environment:
+      CLUSTER_ID: nightflow-local-cluster
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:29092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 10s
+      retries: 15
+      start_period: 30s
+    networks: [nightflow]
+
+  # ===========================================================================
+  # Platform services
+  # ===========================================================================
+  config-server:
+    <<: *app-defaults
+    build:
+      context: ./config-server
+    image: ${IMAGE_PREFIX:-nightflow}/config-server:${IMAGE_TAG:-local}
+    container_name: nightflow-config-server
+    ports:
+      - "8888:8888"
+    # No environment block: config-server is the source of configuration, it has
+    # no upstream config server and no tracing exporter of its own.
+
+  discovery-server:
+    <<: *app-defaults
+    build:
+      context: ./discovery-server
+    image: ${IMAGE_PREFIX:-nightflow}/discovery-server:${IMAGE_TAG:-local}
+    container_name: nightflow-discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      <<: *app-env
+      # Eureka advertises this hostname to clients, so it must be the name
+      # other containers resolve.
+      EUREKA_INSTANCE_HOSTNAME: discovery-server
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+  gateway-service:
+    <<: *app-defaults
+    build:
+      context: ./gateway-service
+    image: ${IMAGE_PREFIX:-nightflow}/gateway-service:${IMAGE_TAG:-local}
+    container_name: nightflow-gateway-service
+    ports:
+      - "8080:8080"
+    environment:
+      <<: *app-env
+    depends_on: *core-deps
+
+  # ===========================================================================
+  # Business services
+  # ===========================================================================
+  auth-service:
+    <<: *app-defaults
+    build:
+      context: ./auth-service
+    image: ${IMAGE_PREFIX:-nightflow}/auth-service:${IMAGE_TAG:-local}
+    container_name: nightflow-auth-service
+    ports:
+      - "8090:8090"
+    environment:
+      <<: *app-env
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    depends_on:
+      <<: *core-deps
+      postgres:
+        condition: service_healthy
+
+  venue-service:
+    <<: *app-defaults
+    build:
+      context: ./venue-service
+    image: ${IMAGE_PREFIX:-nightflow}/venue-service:${IMAGE_TAG:-local}
+    container_name: nightflow-venue-service
+    ports:
+      - "8091:8091"
+    environment:
+      <<: *app-env
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    depends_on:
+      <<: *core-deps
+      postgres:
+        condition: service_healthy
+
+  event-catalog-service:
+    <<: *app-defaults
+    build:
+      context: ./event-catalog-service
+    image: ${IMAGE_PREFIX:-nightflow}/event-catalog-service:${IMAGE_TAG:-local}
+    container_name: nightflow-event-catalog-service
+    ports:
+      - "8092:8092"
+    environment:
+      <<: *app-env
+      MONGODB_URI: mongodb://mongodb:27017/nightflow_events
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    depends_on:
+      <<: *core-deps
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  ticket-service:
+    <<: *app-defaults
+    build:
+      context: ./ticket-service
+    image: ${IMAGE_PREFIX:-nightflow}/ticket-service:${IMAGE_TAG:-local}
+    container_name: nightflow-ticket-service
+    ports:
+      - "8093:8093"
+    environment:
+      <<: *app-env
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    depends_on:
+      <<: *core-deps
+      postgres:
+        condition: service_healthy
+
+  shopping-cart-service:
+    <<: *app-defaults
+    build:
+      context: ./shopping-cart-service
+    image: ${IMAGE_PREFIX:-nightflow}/shopping-cart-service:${IMAGE_TAG:-local}
+    container_name: nightflow-shopping-cart-service
+    ports:
+      - "8094:8094"
+    environment:
+      <<: *app-env
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    depends_on:
+      <<: *core-deps
+      redis:
+        condition: service_healthy
+
+  order-service:
+    <<: *app-defaults
+    build:
+      context: ./order-service
+    image: ${IMAGE_PREFIX:-nightflow}/order-service:${IMAGE_TAG:-local}
+    container_name: nightflow-order-service
+    ports:
+      - "8095:8095"
+    environment:
+      <<: *app-env
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    depends_on:
+      <<: *core-deps
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+
+  notification-service:
+    <<: *app-defaults
+    build:
+      context: ./notification-service
+    image: ${IMAGE_PREFIX:-nightflow}/notification-service:${IMAGE_TAG:-local}
+    container_name: nightflow-notification-service
+    ports:
+      - "8096:8096"
+    environment:
+      <<: *app-env
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-test@example.com}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-password}
+    depends_on:
+      <<: *core-deps
+      kafka:
+        condition: service_healthy
+
+  checkin-service:
+    <<: *app-defaults
+    build:
+      context: ./checkin-service
+    image: ${IMAGE_PREFIX:-nightflow}/checkin-service:${IMAGE_TAG:-local}
+    container_name: nightflow-checkin-service
+    ports:
+      - "8097:8097"
+    environment:
+      <<: *app-env
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+    depends_on:
+      <<: *core-deps
+      redis:
+        condition: service_healthy
+
+  # ===========================================================================
+  # Telemetry sinks - not optional.
+  #
+  # The nine application services (everything except config-server and
+  # discovery-server) ship logs through a Loki appender and spans through an
+  # OTLP gRPC exporter, both wired in application code. A sink that is not reachable
+  # means a connection stack trace every few seconds in every container, so
+  # Loki and Tempo are part of the base stack. Grafana and Prometheus - the
+  # parts that let you *read* the telemetry - stay behind the `observability`
+  # profile below.
+  # ===========================================================================
+  loki:
+    image: grafana/loki:3.3.2
+    container_name: nightflow-loki
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    volumes:
+      - ./config-server/loki/loki-config.yml:/etc/loki/local-config.yaml:ro
+    # No named volume on /loki: the image runs as uid 10001 and a fresh Docker
+    # volume is root-owned. Local logs are disposable, so they stay in the
+    # container's own writable layer.
+    ports:
+      - "3100:3100"
+    networks: [nightflow]
+
+  tempo:
+    image: grafana/tempo:2.7.0
+    container_name: nightflow-tempo
+    command: ["-config.file=/etc/tempo.yml"]
+    volumes:
+      - ./config-server/tempo/tempo.yml:/etc/tempo.yml:ro
+    ports:
+      - "3200:3200"   # query API
+      - "4317:4317"   # OTLP gRPC - what the services export to
+      - "4318:4318"   # OTLP HTTP
+    networks: [nightflow]
+
+  # ===========================================================================
+  # Observability UI (opt-in): docker compose --profile observability up -d
+  # Grafana reads the Loki and Tempo instances above; Prometheus scrapes the
+  # services' /actuator/prometheus endpoints.
+  # ===========================================================================
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: nightflow-prometheus
+    profiles: [observability]
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks: [nightflow]
+
+  grafana:
+    image: grafana/grafana:11.5.1
+    container_name: nightflow-grafana
+    profiles: [observability]
+    volumes:
+      - ./config-server/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-password}
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - tempo
+      - loki
+    networks: [nightflow]
+
+networks:
+  nightflow:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  kafka_data:
+  prometheus_data:
+  grafana_data:

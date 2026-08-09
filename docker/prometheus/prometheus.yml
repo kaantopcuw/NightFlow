@@ -1,0 +1,35 @@
+# Prometheus configuration for the Docker Compose stack.
+#
+# Differs from config-server/prometheus/prometheus.yml (which targets services
+# running on the host via host.docker.internal): here every service is a
+# container on the `nightflow` network, so targets are container names.
+
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "nightflow-services"
+    metrics_path: "/actuator/prometheus"
+    static_configs:
+      - targets: ["gateway-service:8080"]
+        labels: { application: "gateway-service" }
+      - targets: ["auth-service:8090"]
+        labels: { application: "auth-service" }
+      - targets: ["venue-service:8091"]
+        labels: { application: "venue-service" }
+      - targets: ["event-catalog-service:8092"]
+        labels: { application: "event-catalog-service" }
+      - targets: ["ticket-service:8093"]
+        labels: { application: "ticket-service" }
+      - targets: ["shopping-cart-service:8094"]
+        labels: { application: "shopping-cart-service" }
+      - targets: ["order-service:8095"]
+        labels: { application: "order-service" }
+      - targets: ["notification-service:8096"]
+        labels: { application: "notification-service" }
+      - targets: ["checkin-service:8097"]
+        labels: { application: "checkin-service" }

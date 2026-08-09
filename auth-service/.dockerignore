@@ -1,0 +1,4 @@
+# Minimal build context: only the Maven descriptor and the sources.
+*
+!pom.xml
+!src

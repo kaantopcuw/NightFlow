@@ -8,4 +8,21 @@ logs/
 # Runtime files
 .run/
 logs/
+*.log
 observePlan.md
+
+# Local Docker Compose configuration (see .env.example)
+.env
+
+# OpenTofu / Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
