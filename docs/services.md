@@ -141,7 +141,7 @@
 <td><strong>Order Service</strong></td>
 <td align="center"><code>8095</code></td>
 <td>PostgreSQL</td>
-<td>Saga Pattern, Kafka Producer, OpenFeign</td>
+<td>Payment saga + compensation, Kafka Producer, OpenFeign</td>
 </tr>
 
 <tr>
@@ -335,15 +335,22 @@ Temporary cart storage with automatic expiration.
 
 ### 📋 Order Service (8095)
 
-Orchestrates the order creation process using Saga pattern.
+Stores orders and orchestrates paying for one as a compensating saga.
 
-**Saga Steps:**
-1. Validate cart items
-2. Confirm ticket reservations
-3. Process payment (placeholder)
-4. Create order record
-5. Clear cart
-6. Publish `order-created` event
+`POST /orders` only writes the order (status `PENDING`) from the cart contents
+the client sends. The saga is `POST /orders/{orderNumber}/pay`:
+
+1. Capture the payment - **placeholder**, no PSP is integrated
+2. `confirm-sale` every reserved item in `ticket-service`
+3. On success: order `COMPLETED`, publish `order-created`
+4. On failure: compensate - release the sales this order already confirmed
+   (`POST /tickets/release-sale`), drop the reservations that were not
+   (`DELETE /tickets/reserve/{id}`), refund the (simulated) payment, and mark
+   the order `FAILED`, or `COMPENSATION_FAILED` if a compensating call failed
+   too. `order-created` is not published. The API answers `409`.
+
+Nothing else in the platform is compensated; see the README's
+"Saga scope" section for what that covers and what it does not.
 
 **Database:** `nightflow_order` (PostgreSQL)
 
@@ -421,7 +428,7 @@ High-performance entry validation for event day operations.
 | Event Catalog | Horizontal + MongoDB replica set | Read replicas for search |
 | Ticket | **Careful** | Lock contention; consider sharding by event |
 | Cart | Horizontal + Redis Cluster | Session affinity optional |
-| Order | Horizontal | Saga ensures consistency |
+| Order | Horizontal | The payment saga compensates its own failures, but the order row is not locked while it runs |
 | Notification | Horizontal + Kafka partitions | Increase partitions for throughput |
 | Check-in | Horizontal + Redis Cluster | Pre-loaded data enables stateless scaling |
 
